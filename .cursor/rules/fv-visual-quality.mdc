@@ -13,3 +13,7 @@ This repo is a client-facing proposal site. When the **ponytail** skill or “mi
 - shadcn/ui patterns already adopted for the redesign
 
 Ponytail’s “never cut what the user asked for” applies to Tiago’s visual and interaction requirements. Simplify only unrelated or unrequested code.
+
+## Fidelity to the client’s live site
+
+Do **not** add pages, simulators, menus, or CTAs that are absent from the current FV site at https://fvmultimarcas.com.br. Use the live site as the scope boundary: improve layout, acessibilidade e navegação sobre **o mesmo conteúdo e mesmas jornadas** — não inventar funcionalidades (ex.: simulador de parcelas, rota dedicada de financiamento).

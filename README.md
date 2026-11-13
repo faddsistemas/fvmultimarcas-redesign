@@ -25,4 +25,4 @@ A pasta `out/` é o site estático.
 
 ## Estoque
 
-Os 10 veículos, preços, anos, quilometragens, cores, combustíveis e fotos vieram dos anúncios publicados em fvmultimarcas.com.br em 13 de novembro de 2026. Câmbio e lista de equipamentos não estavam nesses anúncios e aparecem como não informados. A simulação de parcela usa taxa de exemplo e não é oferta.
+Os 10 veículos, preços, anos, quilometragens, cores, combustíveis e fotos vieram dos anúncios publicados em fvmultimarcas.com.br em 13 de novembro de 2026. Câmbio e lista de equipamentos não estavam nesses anúncios e aparecem como não informados.

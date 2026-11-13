@@ -1,0 +1,21 @@
+---
+description: Scope FV redesign to what exists on fvmultimarcas.com.br
+alwaysApply: true
+---
+
+# FV Multimarcas — source-of-truth scope
+
+The published dealership site (https://fvmultimarcas.com.br) defines **which pages and flows exist**. This redesign may modernize UX/UI on top of that reality; it must not add net-new product features the client does not ship today.
+
+**Forbidden without explicit client approval**
+
+- New routes or major sections (e.g. financing hub, parcel calculators, credit pre-approval).
+- Nav/footer links to pages that do not exist on the live site.
+- Simulated financial outcomes presented as if they were offers.
+
+**Allowed**
+
+- Usability patterns (filtros, modal de prévia, contraste, mobile) applied to real stock, contact, and sell/trade journeys already on the live site.
+- Copy that describes services the loja já oferece, **sem** criar telas dedicadas que o site atual não tem.
+
+When unsure, compare against fvmultimarcas.com.br before adding UI or a route.

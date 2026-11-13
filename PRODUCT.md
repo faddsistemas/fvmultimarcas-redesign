@@ -12,11 +12,11 @@ Next.js 16 (App Router), TypeScript, Tailwind CSS 4, shadcn/ui (Base UI), React 
 
 ## Users
 
-Moradores de Nova Serrana–MG e região que buscam **carros ou motos seminovos** com preço, ano e km publicados; também quem quer **vender, trocar ou consignar** o veículo ou pedir **financiamento**. Secundário: visitantes vindos do Instagram, Google ou indicação que precisam de contato rápido (WhatsApp/telefone).
+Moradores de Nova Serrana–MG e região que buscam **carros ou motos seminovos** com preço, ano e km publicados; também quem quer **vender, trocar ou consignar** o veículo. Secundário: visitantes vindos do Instagram, Google ou indicação que precisam de contato rápido (WhatsApp/telefone).
 
 ## Product Purpose
 
-Site comercial da **FV Multimarcas** para apresentar o estoque publicado, facilitar busca e contato, e apoiar jornadas de venda, troca, consignação e financiamento. Sucesso: visitante encontra um veículo real, entende o preço e abre conversa com a loja sem fricção.
+Site comercial da **FV Multimarcas** para apresentar o estoque publicado, facilitar busca e contato, e apoiar jornadas de venda, troca e consignação espelhadas do site atual da loja. Sucesso: visitante encontra um veículo real, entende o preço e abre conversa com a loja sem fricção.
 
 ## Positioning
 
@@ -28,10 +28,11 @@ Loja física na R. Dimas Guimarães, 600 – Centro. Atendimento por WhatsApp e 
 
 ## Capabilities and Constraints
 
-- Rotas: início, estoque com filtros, detalhe por veículo, venda do carro, financiamento, contato.
+- Rotas: início, estoque com filtros, detalhe por veículo, venda do carro, contato.
 - Dados: `data/vehicles.json` (10 veículos) e `data/reviews.json` (citações Google reais).
 - Hero com carrossel de destaques, busca, modal de prévia (`?veiculo=slug`), mapa embutido.
-- Não fabricar avaliações, preços FIPE ou aprovação de crédito; simulador de parcelas é exemplo, não oferta bancária.
+- **Não criar rotas, simuladores ou fluxos que não existam no site publicado em fvmultimarcas.com.br**; da referência só replicar padrões de usabilidade sobre o conteúdo real.
+- Não fabricar avaliações, preços FIPE ou aprovação de crédito.
 
 ## Brand Commitments
 

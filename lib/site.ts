@@ -57,19 +57,12 @@ export const nav = [
   { href: "/", label: "Início" },
   { href: "/estoque/", label: "Estoque" },
   { href: "/venda-seu-carro/", label: "Venda seu carro" },
-  { href: "/financiamento/", label: "Financiamento" },
   { href: "/contato/", label: "Contato" },
 ] as const;
 
 export const containerClass = "mx-auto w-full max-w-6xl px-4";
 
 export const services = [
-  {
-    title: "Financiamento",
-    description:
-      "A loja recebe o pedido e encaminha a análise para as financeiras parceiras. A taxa e a aprovação saem dessa análise, não de uma conta genérica.",
-    href: "/financiamento/",
-  },
   {
     title: "Venda do seu carro",
     description:
@@ -81,12 +74,6 @@ export const services = [
     description:
       "Transferência e documentação podem ser tratadas na própria loja, para o comprador não correr atrás de cartório sozinho.",
     href: "/contato/",
-  },
-  {
-    title: "Refinanciamento",
-    description:
-      "Se o veículo já está no seu nome, a FV encaminha o pedido de crédito com garantia nas instituições que publica como parceiras.",
-    href: "/financiamento/",
   },
   {
     title: "Consignação",

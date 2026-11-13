@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MessageCircleIcon, PhoneIcon } from "lucide-react";
 
-import { FinanceSimulator } from "@/components/finance-simulator";
 import { JsonLd } from "@/components/json-ld";
 import { PageHero } from "@/components/page-hero";
 import { VehicleCard } from "@/components/vehicle-card";
@@ -235,7 +234,6 @@ export default async function VehiclePage({ params }: VehiclePageProps) {
           </p>
         )}
       </section>
-      <FinanceSimulator price={vehicle.price} lockPrice />
       <p className="text-base">
         Para a referência oficial de preço de mercado, consulte a{" "}
         <a
