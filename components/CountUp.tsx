@@ -233,7 +233,7 @@ export default function CountUp({
     return buildRoll(a, b, !!play?.spin, { compact, decimals, places, separator });
   }, [mode, play, startValue, endValue, compact, decimals, places, separator]);
 
-  const [initialText] = useState(() => formatValue(startValue));
+  const [initialText] = useState(() => formatValue(endValue));
   const latestRef = useRef<Live | null>(null);
 
   useIsoLayoutEffect(() => {
@@ -250,11 +250,17 @@ export default function CountUp({
   });
 
   useIsoLayoutEffect(() => {
-    if (!startedRef.current) valueRef.current = startValue;
+    if (!startedRef.current) {
+      valueRef.current = startValue;
+      if (mode === 'count' && textRef.current) {
+        textRef.current.textContent = formatValue(endValue);
+      }
+      return;
+    }
     if (mode === 'count' && !runningRef.current && textRef.current) {
       textRef.current.textContent = formatValue(valueRef.current);
     }
-  }, [mode, startValue, formatValue]);
+  }, [mode, startValue, endValue, formatValue]);
 
   useEffect(() => {
     if (!active || !startWhen) return;

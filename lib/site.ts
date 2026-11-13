@@ -47,9 +47,11 @@ export function telHref(e164: string) {
   return `tel:+${e164}`;
 }
 
-export const mapsEmbedSrc = `https://maps.google.com/maps?q=${encodeURIComponent(dealer.mapsQuery)}&z=16&output=embed`;
+export const mapsEmbedSrc =
+  "https://www.google.com/maps?q=R.+Dimas+Guimar%C3%A3es,+600+-+Centro,+Nova+Serrana+-+MG&output=embed";
 
-export const mapsExternalHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(dealer.mapsQuery)}`;
+export const mapsExternalHref =
+  "https://www.google.com/maps/search/?api=1&query=R.+Dimas+Guimar%C3%A3es,+600+-+Centro,+Nova+Serrana+-+MG";
 
 export const nav = [
   { href: "/", label: "Início" },
