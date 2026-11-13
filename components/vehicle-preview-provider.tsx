@@ -90,22 +90,3 @@ export function VehiclePreviewProvider({ children }: { children: ReactNode }) {
     </VehiclePreviewContext.Provider>
   );
 }
-
-export function openVehiclePageClick(
-  event: React.MouseEvent<HTMLAnchorElement>,
-  onOpen: (vehicle: Vehicle) => void,
-  vehicle: Vehicle,
-) {
-  if (
-    event.metaKey ||
-    event.ctrlKey ||
-    event.shiftKey ||
-    event.altKey ||
-    event.button === 1
-  ) {
-    return;
-  }
-  event.preventDefault();
-  event.stopPropagation();
-  onOpen(vehicle);
-}

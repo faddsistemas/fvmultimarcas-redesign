@@ -1,7 +1,9 @@
 import { chromium } from "playwright";
 import { mkdir } from "node:fs/promises";
 
-const base = "http://127.0.0.1:3005/fvmultimarcas-redesign/";
+const base =
+  process.env.PREVIEW_BASE ||
+  "https://tiiandradee2.github.io/fvmultimarcas-redesign/";
 const outDir = "/opt/cursor/artifacts";
 
 await mkdir(outDir, { recursive: true });
