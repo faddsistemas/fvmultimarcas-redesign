@@ -77,7 +77,7 @@ const dealerJsonLd = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className={`${body.variable} ${heading.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col overflow-x-clip">
         <JsonLd data={dealerJsonLd} />
         <a
           href="#conteudo"

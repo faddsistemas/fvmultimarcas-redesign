@@ -170,10 +170,11 @@ export default async function VehiclePage({ params }: VehiclePageProps) {
               </Button>
               <Button
                 variant="outline"
-                render={<a href={telHref(dealer.whatsappE164)} />}
+                className="border-white/60 bg-white text-secondary hover:bg-white/90 hover:text-secondary"
+                render={<a href={telHref(dealer.phoneE164)} />}
               >
                 <PhoneIcon data-icon="inline-start" />
-                Ligar {dealer.whatsappDisplay}
+                Ligar {dealer.phoneDisplay}
               </Button>
             </div>
           </div>

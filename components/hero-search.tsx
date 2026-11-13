@@ -48,13 +48,13 @@ export function HeroSearch({ brands }: { brands: string[] }) {
   }
 
   return (
-    <section className="bg-[linear-gradient(145deg,#CF1B1C_0%,#9a1213_45%,#8B0000_100%)] text-white">
-      <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-10 md:grid-cols-2 md:items-center md:py-14">
-        <div className="flex flex-col gap-4">
+    <section className="overflow-x-clip bg-[linear-gradient(145deg,#CF1B1C_0%,#9a1213_45%,#8B0000_100%)] text-white">
+      <div className="mx-auto grid w-full max-w-6xl min-w-0 gap-8 px-4 py-10 md:grid-cols-2 md:items-center md:py-14">
+        <div className="flex min-w-0 max-w-full flex-col gap-4">
           <p className="text-sm font-semibold tracking-wide text-white">
             Nova Serrana · desde 2005
           </p>
-          <h1 className="text-4xl font-semibold leading-tight text-white md:text-5xl">
+          <h1 className="max-w-full min-w-0 text-4xl font-semibold leading-tight text-white md:text-5xl">
             <SplitText
               text="Seu próximo veículo está em Nova Serrana."
               tag="span"
@@ -70,7 +70,9 @@ export function HeroSearch({ brands }: { brands: string[] }) {
             publicou.
           </p>
         </div>
-        <HeroVehicleCarousel />
+        <div className="min-w-0 w-full max-w-full">
+          <HeroVehicleCarousel />
+        </div>
       </div>
       <div className="mx-auto w-full max-w-6xl px-4 pb-10">
         <form

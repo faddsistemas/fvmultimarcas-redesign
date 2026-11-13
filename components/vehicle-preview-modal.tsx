@@ -38,7 +38,7 @@ export function VehiclePreviewModal({
           className="m-0 h-[100dvh] max-h-[100dvh] w-full max-w-none rounded-none border-0 [--drawer-content-max-height:100dvh] [--drawer-content-height:100dvh] [--drawer-inset:0px]"
           aria-describedby="vehicle-preview-desc-mobile"
         >
-          <div className="flex max-h-[100dvh] min-h-0 flex-col gap-3 overflow-hidden p-4 pt-6">
+          <div className="flex h-full max-h-[100dvh] w-full max-w-full min-w-0 flex-col gap-3 overflow-x-hidden overflow-y-auto p-4 pt-6 pb-6">
             <DrawerTitle id="vehicle-preview-title" className="sr-only">
               {title}
             </DrawerTitle>

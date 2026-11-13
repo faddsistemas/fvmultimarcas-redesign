@@ -9,6 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { usePathname } from "next/navigation";
 
 import { VehiclePreviewModal } from "@/components/vehicle-preview-modal";
 import {
@@ -36,18 +37,31 @@ export function useVehiclePreview() {
   return context;
 }
 
-function vehicleFromUrl() {
+function isVehicleDetailPath(pathname: string) {
+  return /\/veiculo\/[^/]+\/?$/.test(pathname);
+}
+
+function vehicleFromUrl(pathname: string) {
+  if (isVehicleDetailPath(pathname)) return null;
   const slug = readVehiclePreviewParam();
   if (!slug) return null;
   return getVehicle(slug) ?? null;
 }
 
 export function VehiclePreviewProvider({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
   const [vehicle, setVehicle] = useState<Vehicle | null>(null);
 
   const syncFromUrl = useCallback(() => {
-    setVehicle(vehicleFromUrl());
-  }, []);
+    const path =
+      typeof window !== "undefined" ? window.location.pathname : pathname;
+    if (isVehicleDetailPath(path)) {
+      setVehicle(null);
+      if (readVehiclePreviewParam()) setVehiclePreviewParam(null);
+      return;
+    }
+    setVehicle(vehicleFromUrl(path));
+  }, [pathname]);
 
   const openPreview = useCallback((next: Vehicle) => {
     setVehicle(next);
@@ -65,7 +79,7 @@ export function VehiclePreviewProvider({ children }: { children: ReactNode }) {
     const onPopState = () => syncFromUrl();
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
-  }, [syncFromUrl]);
+  }, [syncFromUrl, pathname]);
 
   const value = useMemo(
     () => ({

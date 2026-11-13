@@ -81,7 +81,7 @@ export function VehiclePreviewGallery({
               type="button"
               variant="secondary"
               size="icon"
-              className="size-10 bg-background/90"
+              className="size-10 bg-background/90 text-foreground [&_svg]:size-5 [&_svg]:text-foreground"
               aria-label="Foto anterior"
               onClick={() => go(-1)}
             >
@@ -91,7 +91,7 @@ export function VehiclePreviewGallery({
               type="button"
               variant="secondary"
               size="icon"
-              className="size-10 bg-background/90"
+              className="size-10 bg-background/90 text-foreground [&_svg]:size-5 [&_svg]:text-foreground"
               aria-label="Próxima foto"
               onClick={() => go(1)}
             >
@@ -116,7 +116,7 @@ export function VehiclePreviewGallery({
                   aria-label={`Mostrar foto ${photoIndex + 1} de ${total}`}
                   aria-current={selected ? "true" : undefined}
                   onClick={() => setIndex(photoIndex)}
-                  className={`relative aspect-square overflow-hidden rounded-md border-2 ${selected ? "border-primary" : "border-transparent"}`}
+                  className={`relative block aspect-square w-full min-h-10 overflow-hidden rounded-md border-2 ${selected ? "border-primary" : "border-transparent"}`}
                 >
                   <SiteImage
                     src={photo.src}

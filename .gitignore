@@ -40,5 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/
+
 # impeccable platform binaries (restored by `npx impeccable install`)
 .cursor/skills/impeccable/scripts/bin/

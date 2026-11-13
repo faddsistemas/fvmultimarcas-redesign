@@ -58,7 +58,7 @@ export function HeroVehicleCarousel() {
 
   return (
     <div
-      className="relative w-full"
+      className="relative w-full max-w-full min-w-0 overflow-hidden"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
@@ -71,23 +71,23 @@ export function HeroVehicleCarousel() {
       <Carousel
         setApi={setApi}
         opts={{ align: "start", loop: true }}
-        className="w-full"
+        className="w-full max-w-full"
         aria-label="Veículos em destaque"
       >
-        <CarouselContent className="-ml-3">
+        <CarouselContent className="ml-0">
           {items.map((vehicle, index) => (
-            <CarouselItem key={vehicle.slug} className="pl-3">
+            <CarouselItem key={vehicle.slug} className="basis-full pl-0">
               <HeroCarouselSlide vehicle={vehicle} priority={index === 0} />
             </CarouselItem>
           ))}
         </CarouselContent>
         <CarouselPrevious
           variant="secondary"
-          className="left-2 size-11 border-0 bg-white/95 text-secondary shadow-md hover:bg-white disabled:opacity-40"
+          className="left-2 size-11 border-0 bg-white/95 text-secondary shadow-md hover:bg-white disabled:opacity-40 [&_svg]:size-5 [&_svg]:text-secondary"
         />
         <CarouselNext
           variant="secondary"
-          className="right-2 size-11 border-0 bg-white/95 text-secondary shadow-md hover:bg-white disabled:opacity-40"
+          className="right-2 size-11 border-0 bg-white/95 text-secondary shadow-md hover:bg-white disabled:opacity-40 [&_svg]:size-5 [&_svg]:text-secondary"
         />
       </Carousel>
       <CarouselDots
