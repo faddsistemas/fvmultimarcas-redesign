@@ -133,7 +133,7 @@ function HeroCarouselSlide({
         </div>
         <div className="flex flex-col gap-1 px-4 py-3">
           <p className="text-sm text-muted-foreground">{vehicle.brand}</p>
-          <h3 className="font-heading text-xl font-semibold">{name}</h3>
+          <h2 className="font-heading text-xl font-semibold">{name}</h2>
           <p className="text-sm">
             {vehicle.year}
             <span aria-hidden="true"> · </span>

@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# impeccable platform binaries (restored by `npx impeccable install`)
+.cursor/skills/impeccable/scripts/bin/

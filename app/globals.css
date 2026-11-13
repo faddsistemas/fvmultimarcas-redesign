@@ -126,6 +126,9 @@
     @apply bg-background text-foreground;
     overflow-x: clip;
   }
+  p {
+    text-wrap: pretty;
+  }
   html {
     @apply font-sans;
     scroll-padding-top: 5.5rem;
