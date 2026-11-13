@@ -1,0 +1,482 @@
+[
+  {
+    "slug": "voyage-1-6",
+    "title": "Voyage 1.6",
+    "version": "1.6",
+    "brand": "Volkswagen",
+    "model": "Voyage",
+    "year": 2013,
+    "price": 37500,
+    "km": 213000,
+    "color": "Prata",
+    "fuel": "Flex",
+    "category": "carro",
+    "sourceUrl": "https://fvmultimarcas.com.br/wdk-listing/voyage-1-6/",
+    "transmission": null,
+    "equipment": [],
+    "photos": [
+      {
+        "src": "/vehicles/voyage-1-6/1.webp",
+        "width": 1156,
+        "height": 1280,
+        "alt": "Volkswagen Voyage 1.6 2013, carro, Prata, foto 1 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/voyage-1-6/2.webp",
+        "width": 1087,
+        "height": 1280,
+        "alt": "Volkswagen Voyage 1.6 2013, carro, Prata, foto 2 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/voyage-1-6/3.webp",
+        "width": 1002,
+        "height": 1280,
+        "alt": "Volkswagen Voyage 1.6 2013, carro, Prata, foto 3 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/voyage-1-6/4.webp",
+        "width": 1109,
+        "height": 1280,
+        "alt": "Volkswagen Voyage 1.6 2013, carro, Prata, foto 4 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/voyage-1-6/5.webp",
+        "width": 1089,
+        "height": 1280,
+        "alt": "Volkswagen Voyage 1.6 2013, carro, Prata, foto 5 do anúncio da FV Multimarcas"
+      }
+    ]
+  },
+  {
+    "slug": "t-cross-2026",
+    "title": "T CROSS",
+    "version": null,
+    "brand": "Volkswagen",
+    "model": "T CROSS",
+    "year": 2026,
+    "price": 124900,
+    "km": 44842,
+    "color": "Branca",
+    "fuel": "Flex",
+    "category": "carro",
+    "sourceUrl": "https://fvmultimarcas.com.br/wdk-listing/tcross-2026/",
+    "transmission": null,
+    "equipment": [],
+    "photos": [
+      {
+        "src": "/vehicles/t-cross-2026/1.webp",
+        "width": 1069,
+        "height": 1280,
+        "alt": "Volkswagen T CROSS 2026, carro, Branca, foto 1 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/t-cross-2026/2.webp",
+        "width": 992,
+        "height": 1280,
+        "alt": "Volkswagen T CROSS 2026, carro, Branca, foto 2 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/t-cross-2026/3.webp",
+        "width": 1280,
+        "height": 960,
+        "alt": "Volkswagen T CROSS 2026, carro, Branca, foto 3 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/t-cross-2026/4.webp",
+        "width": 960,
+        "height": 1280,
+        "alt": "Volkswagen T CROSS 2026, carro, Branca, foto 4 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/t-cross-2026/5.webp",
+        "width": 960,
+        "height": 1280,
+        "alt": "Volkswagen T CROSS 2026, carro, Branca, foto 5 do anúncio da FV Multimarcas"
+      }
+    ]
+  },
+  {
+    "slug": "honda-hrv-ex-2016",
+    "title": "HRV EX",
+    "version": "EX",
+    "brand": "Honda",
+    "model": "HRV",
+    "year": 2016,
+    "price": 82900,
+    "km": 118746,
+    "color": "Vinho",
+    "fuel": "Flex",
+    "category": "carro",
+    "sourceUrl": "https://fvmultimarcas.com.br/wdk-listing/hrv/",
+    "transmission": null,
+    "equipment": [],
+    "photos": [
+      {
+        "src": "/vehicles/honda-hrv-ex-2016/1.webp",
+        "width": 1142,
+        "height": 1280,
+        "alt": "Honda HRV EX 2016, carro, Vinho, foto 1 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/honda-hrv-ex-2016/2.webp",
+        "width": 1028,
+        "height": 1280,
+        "alt": "Honda HRV EX 2016, carro, Vinho, foto 2 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/honda-hrv-ex-2016/3.webp",
+        "width": 1126,
+        "height": 1280,
+        "alt": "Honda HRV EX 2016, carro, Vinho, foto 3 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/honda-hrv-ex-2016/4.webp",
+        "width": 1280,
+        "height": 901,
+        "alt": "Honda HRV EX 2016, carro, Vinho, foto 4 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/honda-hrv-ex-2016/5.webp",
+        "width": 1268,
+        "height": 1280,
+        "alt": "Honda HRV EX 2016, carro, Vinho, foto 5 do anúncio da FV Multimarcas"
+      }
+    ]
+  },
+  {
+    "slug": "honda-pop-2023",
+    "title": "Pop",
+    "version": null,
+    "brand": "Honda",
+    "model": "Pop",
+    "year": 2023,
+    "price": 11900,
+    "km": 9963,
+    "color": "Branca",
+    "fuel": "Gasolina",
+    "category": "moto",
+    "sourceUrl": "https://fvmultimarcas.com.br/wdk-listing/pop/",
+    "transmission": null,
+    "equipment": [],
+    "photos": [
+      {
+        "src": "/vehicles/honda-pop-2023/1.webp",
+        "width": 902,
+        "height": 1280,
+        "alt": "Honda Pop 2023, moto, Branca, foto 1 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/honda-pop-2023/2.webp",
+        "width": 960,
+        "height": 1280,
+        "alt": "Honda Pop 2023, moto, Branca, foto 2 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/honda-pop-2023/3.webp",
+        "width": 960,
+        "height": 1280,
+        "alt": "Honda Pop 2023, moto, Branca, foto 3 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/honda-pop-2023/4.webp",
+        "width": 960,
+        "height": 1280,
+        "alt": "Honda Pop 2023, moto, Branca, foto 4 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/honda-pop-2023/5.webp",
+        "width": 960,
+        "height": 1280,
+        "alt": "Honda Pop 2023, moto, Branca, foto 5 do anúncio da FV Multimarcas"
+      }
+    ]
+  },
+  {
+    "slug": "honda-pop-110i-2020",
+    "title": "Pop 110i",
+    "version": "110i",
+    "brand": "Honda",
+    "model": "Pop 110i",
+    "year": 2020,
+    "price": 10900,
+    "km": 25789,
+    "color": "Preta",
+    "fuel": "Gasolina",
+    "category": "moto",
+    "sourceUrl": "https://fvmultimarcas.com.br/wdk-listing/pop110i/",
+    "transmission": null,
+    "equipment": [],
+    "photos": [
+      {
+        "src": "/vehicles/honda-pop-110i-2020/1.webp",
+        "width": 882,
+        "height": 1280,
+        "alt": "Honda Pop 110i 2020, moto, Preta, foto 1 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/honda-pop-110i-2020/2.webp",
+        "width": 960,
+        "height": 1280,
+        "alt": "Honda Pop 110i 2020, moto, Preta, foto 2 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/honda-pop-110i-2020/3.webp",
+        "width": 1280,
+        "height": 960,
+        "alt": "Honda Pop 110i 2020, moto, Preta, foto 3 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/honda-pop-110i-2020/4.webp",
+        "width": 960,
+        "height": 1280,
+        "alt": "Honda Pop 110i 2020, moto, Preta, foto 4 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/honda-pop-110i-2020/5.webp",
+        "width": 960,
+        "height": 1280,
+        "alt": "Honda Pop 110i 2020, moto, Preta, foto 5 do anúncio da FV Multimarcas"
+      }
+    ]
+  },
+  {
+    "slug": "fiat-mobi-like-2025-cinza",
+    "title": "Mobi Like",
+    "version": "Like",
+    "brand": "Fiat",
+    "model": "Mobi",
+    "year": 2025,
+    "price": 61000,
+    "km": 29601,
+    "color": "Cinza",
+    "fuel": "Flex",
+    "category": "carro",
+    "sourceUrl": "https://fvmultimarcas.com.br/wdk-listing/mobi/",
+    "transmission": null,
+    "equipment": [],
+    "photos": [
+      {
+        "src": "/vehicles/fiat-mobi-like-2025-cinza/1.webp",
+        "width": 963,
+        "height": 1280,
+        "alt": "Fiat Mobi Like 2025, carro, Cinza, foto 1 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/fiat-mobi-like-2025-cinza/2.webp",
+        "width": 1015,
+        "height": 1280,
+        "alt": "Fiat Mobi Like 2025, carro, Cinza, foto 2 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/fiat-mobi-like-2025-cinza/3.webp",
+        "width": 1280,
+        "height": 903,
+        "alt": "Fiat Mobi Like 2025, carro, Cinza, foto 3 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/fiat-mobi-like-2025-cinza/4.webp",
+        "width": 960,
+        "height": 1280,
+        "alt": "Fiat Mobi Like 2025, carro, Cinza, foto 4 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/fiat-mobi-like-2025-cinza/5.webp",
+        "width": 1141,
+        "height": 1280,
+        "alt": "Fiat Mobi Like 2025, carro, Cinza, foto 5 do anúncio da FV Multimarcas"
+      }
+    ]
+  },
+  {
+    "slug": "fiat-mobi-like-2025-branca",
+    "title": "Mobi Like",
+    "version": "Like",
+    "brand": "Fiat",
+    "model": "Mobi",
+    "year": 2025,
+    "price": 60900,
+    "km": 35426,
+    "color": "Branca",
+    "fuel": "Flex",
+    "category": "carro",
+    "sourceUrl": "https://fvmultimarcas.com.br/wdk-listing/fiat-mobi-like-2025/",
+    "transmission": null,
+    "equipment": [],
+    "photos": [
+      {
+        "src": "/vehicles/fiat-mobi-like-2025-branca/1.webp",
+        "width": 1020,
+        "height": 1280,
+        "alt": "Fiat Mobi Like 2025, carro, Branca, foto 1 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/fiat-mobi-like-2025-branca/2.webp",
+        "width": 1141,
+        "height": 1280,
+        "alt": "Fiat Mobi Like 2025, carro, Branca, foto 2 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/fiat-mobi-like-2025-branca/3.webp",
+        "width": 1280,
+        "height": 990,
+        "alt": "Fiat Mobi Like 2025, carro, Branca, foto 3 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/fiat-mobi-like-2025-branca/4.webp",
+        "width": 1181,
+        "height": 1280,
+        "alt": "Fiat Mobi Like 2025, carro, Branca, foto 4 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/fiat-mobi-like-2025-branca/5.webp",
+        "width": 1044,
+        "height": 1280,
+        "alt": "Fiat Mobi Like 2025, carro, Branca, foto 5 do anúncio da FV Multimarcas"
+      }
+    ]
+  },
+  {
+    "slug": "volkswagen-saveiro-2022",
+    "title": "Saveiro",
+    "version": null,
+    "brand": "Volkswagen",
+    "model": "Saveiro",
+    "year": 2022,
+    "price": 62900,
+    "km": 119273,
+    "color": null,
+    "fuel": "Flex",
+    "category": "carro",
+    "sourceUrl": "https://fvmultimarcas.com.br/wdk-listing/saveiro-robust/",
+    "transmission": null,
+    "equipment": [],
+    "photos": [
+      {
+        "src": "/vehicles/volkswagen-saveiro-2022/1.webp",
+        "width": 1038,
+        "height": 1280,
+        "alt": "Volkswagen Saveiro 2022, carro, cor não informada no anúncio, foto 1 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/volkswagen-saveiro-2022/2.webp",
+        "width": 1052,
+        "height": 1280,
+        "alt": "Volkswagen Saveiro 2022, carro, cor não informada no anúncio, foto 2 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/volkswagen-saveiro-2022/3.webp",
+        "width": 934,
+        "height": 1280,
+        "alt": "Volkswagen Saveiro 2022, carro, cor não informada no anúncio, foto 3 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/volkswagen-saveiro-2022/4.webp",
+        "width": 1162,
+        "height": 1280,
+        "alt": "Volkswagen Saveiro 2022, carro, cor não informada no anúncio, foto 4 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/volkswagen-saveiro-2022/5.webp",
+        "width": 1144,
+        "height": 1280,
+        "alt": "Volkswagen Saveiro 2022, carro, cor não informada no anúncio, foto 5 do anúncio da FV Multimarcas"
+      }
+    ]
+  },
+  {
+    "slug": "volkswagen-parati-1-6-2013",
+    "title": "Parati 1.6",
+    "version": "1.6",
+    "brand": "Volkswagen",
+    "model": "Parati",
+    "year": 2013,
+    "price": 38900,
+    "km": 191781,
+    "color": "Prata",
+    "fuel": "Flex",
+    "category": "carro",
+    "sourceUrl": "https://fvmultimarcas.com.br/wdk-listing/parati-1-6-2013/",
+    "transmission": null,
+    "equipment": [],
+    "photos": [
+      {
+        "src": "/vehicles/volkswagen-parati-1-6-2013/1.webp",
+        "width": 1216,
+        "height": 1280,
+        "alt": "Volkswagen Parati 1.6 2013, carro, Prata, foto 1 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/volkswagen-parati-1-6-2013/2.webp",
+        "width": 1150,
+        "height": 1280,
+        "alt": "Volkswagen Parati 1.6 2013, carro, Prata, foto 2 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/volkswagen-parati-1-6-2013/3.webp",
+        "width": 1262,
+        "height": 1280,
+        "alt": "Volkswagen Parati 1.6 2013, carro, Prata, foto 3 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/volkswagen-parati-1-6-2013/4.webp",
+        "width": 1280,
+        "height": 1142,
+        "alt": "Volkswagen Parati 1.6 2013, carro, Prata, foto 4 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/volkswagen-parati-1-6-2013/5.webp",
+        "width": 1250,
+        "height": 1280,
+        "alt": "Volkswagen Parati 1.6 2013, carro, Prata, foto 5 do anúncio da FV Multimarcas"
+      }
+    ]
+  },
+  {
+    "slug": "fiat-argo-drive-2024",
+    "title": "Argo Drive",
+    "version": "Drive",
+    "brand": "Fiat",
+    "model": "Argo",
+    "year": 2024,
+    "price": 70900,
+    "km": 47304,
+    "color": "Branca",
+    "fuel": "Flex",
+    "category": "carro",
+    "sourceUrl": "https://fvmultimarcas.com.br/wdk-listing/fiat-argo-drive/",
+    "transmission": null,
+    "equipment": [],
+    "photos": [
+      {
+        "src": "/vehicles/fiat-argo-drive-2024/1.webp",
+        "width": 1068,
+        "height": 1280,
+        "alt": "Fiat Argo Drive 2024, carro, Branca, foto 1 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/fiat-argo-drive-2024/2.webp",
+        "width": 1176,
+        "height": 1280,
+        "alt": "Fiat Argo Drive 2024, carro, Branca, foto 2 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/fiat-argo-drive-2024/3.webp",
+        "width": 1021,
+        "height": 1280,
+        "alt": "Fiat Argo Drive 2024, carro, Branca, foto 3 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/fiat-argo-drive-2024/4.webp",
+        "width": 1239,
+        "height": 1280,
+        "alt": "Fiat Argo Drive 2024, carro, Branca, foto 4 do anúncio da FV Multimarcas"
+      },
+      {
+        "src": "/vehicles/fiat-argo-drive-2024/5.webp",
+        "width": 1280,
+        "height": 795,
+        "alt": "Fiat Argo Drive 2024, carro, Branca, foto 5 do anúncio da FV Multimarcas"
+      }
+    ]
+  }
+]
