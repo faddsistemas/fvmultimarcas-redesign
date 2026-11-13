@@ -47,8 +47,8 @@ export function SiteHeader() {
     "text-primary-foreground hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
 
   return (
-    <header className="sticky top-0 z-30 border-b border-white/15 bg-primary text-primary-foreground">
-      <div className="hidden border-b border-white/15 sm:block">
+    <header className="sticky top-0 z-30">
+      <div className="hidden bg-primary text-primary-foreground sm:block">
         <div className="mx-auto flex h-10 w-full max-w-6xl items-center justify-between gap-4 px-4 text-sm">
           <p>{dealer.addressLine}</p>
           <p>
@@ -62,7 +62,8 @@ export function SiteHeader() {
           </p>
         </div>
       </div>
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-3 px-4">
+      <div className="border-b border-border bg-background text-foreground">
+        <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-3 px-4">
         <Link href="/" className="flex shrink-0 items-center rounded-lg">
           <SiteImage
             src="/brand/logo.webp"
@@ -82,10 +83,8 @@ export function SiteHeader() {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "inline-flex min-h-11 items-center rounded-lg px-3 text-sm font-medium",
-                  active
-                    ? "bg-white/15 text-primary-foreground"
-                    : cn(onPrimary, "hover:underline"),
+                  "inline-flex min-h-11 items-center rounded-lg px-3 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  active ? "text-primary" : "text-foreground hover:bg-muted",
                 )}
               >
                 {item.label}
@@ -95,8 +94,6 @@ export function SiteHeader() {
         </nav>
         <div className="ml-auto hidden md:block">
           <Button
-            variant="outline"
-            className="border-white/70 bg-white text-primary hover:bg-white/90 hover:text-primary"
             render={
               <a href={whatsapp} target="_blank" rel="noopener noreferrer" />
             }
@@ -111,7 +108,7 @@ export function SiteHeader() {
             render={
               <Button
                 variant="outline"
-                className="size-11 border-white/60 bg-transparent text-primary-foreground hover:bg-white/10 md:hidden"
+                className="size-11 md:hidden"
                 aria-label="Abrir menu"
               />
             }
@@ -120,7 +117,7 @@ export function SiteHeader() {
           </SheetTrigger>
           <SheetContent
             side="left"
-            className="w-full data-[side=left]:w-full sm:max-w-sm"
+            className="w-full bg-background text-foreground data-[side=left]:w-full sm:max-w-sm"
           >
             <SheetHeader>
               <SheetTitle>Menu</SheetTitle>
@@ -146,6 +143,7 @@ export function SiteHeader() {
             </nav>
           </SheetContent>
         </Sheet>
+        </div>
       </div>
     </header>
   );
