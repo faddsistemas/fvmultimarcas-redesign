@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SearchIcon } from "lucide-react";
 
+import { HeroVehicleCarousel } from "@/components/hero-vehicle-carousel";
 import SplitText from "@/components/SplitText";
-import TiltedCard from "@/components/TiltedCard";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -18,7 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { priceBands, publicPath, type PriceBandId } from "@/lib/site";
+import { priceBands, type PriceBandId } from "@/lib/site";
 
 export function HeroSearch({ brands }: { brands: string[] }) {
   const router = useRouter();
@@ -48,7 +48,7 @@ export function HeroSearch({ brands }: { brands: string[] }) {
   }
 
   return (
-    <section className="bg-secondary text-secondary-foreground">
+    <section className="bg-[linear-gradient(145deg,#CF1B1C_0%,#9a1213_45%,#8B0000_100%)] text-white">
       <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-10 md:grid-cols-2 md:items-center md:py-14">
         <div className="flex flex-col gap-4">
           <p className="text-sm font-semibold tracking-wide text-white">
@@ -70,19 +70,7 @@ export function HeroSearch({ brands }: { brands: string[] }) {
             publicou.
           </p>
         </div>
-        <TiltedCard
-          imageSrc={publicPath("/vehicles/t-cross-2026/3.webp")}
-          altText="Volkswagen T CROSS branco, ano 2026, fotografado na FV Multimarcas"
-          containerWidth="100%"
-          containerHeight="min(70vw, 420px)"
-          imageWidth="100%"
-          imageHeight="100%"
-          rotateAmplitude={8}
-          scaleOnHover={1.02}
-          showTooltip={false}
-          gyroscope={false}
-          radius={16}
-        />
+        <HeroVehicleCarousel />
       </div>
       <div className="mx-auto w-full max-w-6xl px-4 pb-10">
         <form
@@ -167,7 +155,10 @@ export function HeroSearch({ brands }: { brands: string[] }) {
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
-            <Button type="submit" className="w-full sm:w-auto">
+            <Button
+              type="submit"
+              className="w-full bg-[#053C68] text-white hover:bg-[#042d4f] sm:w-auto"
+            >
               <SearchIcon data-icon="inline-start" />
               Ver veículos
             </Button>

@@ -3,6 +3,7 @@ import { Outfit, Source_Sans_3 } from "next/font/google";
 
 import { JsonLd } from "@/components/json-ld";
 import { MobileContactBar } from "@/components/mobile-contact-bar";
+import { VehiclePreviewProvider } from "@/components/vehicle-preview-provider";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { absoluteUrl, dealer, siteUrl } from "@/lib/site";
@@ -84,12 +85,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Pular para o conteúdo
         </a>
-        <SiteHeader />
-        <main id="conteudo" className="flex-1 pb-16 md:pb-0">
-          {children}
-        </main>
-        <SiteFooter />
-        <MobileContactBar />
+        <VehiclePreviewProvider>
+          <SiteHeader />
+          <main id="conteudo" className="flex-1 pb-16 md:pb-0">
+            {children}
+          </main>
+          <SiteFooter />
+          <MobileContactBar />
+        </VehiclePreviewProvider>
       </body>
     </html>
   );

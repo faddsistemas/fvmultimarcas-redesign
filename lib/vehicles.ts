@@ -1,5 +1,7 @@
 import rawVehicles from "@/data/vehicles.json";
 
+import { basePath } from "@/lib/site";
+
 export type VehicleCategory = "carro" | "moto";
 
 export type VehiclePhoto = {
@@ -25,6 +27,7 @@ export type Vehicle = {
   equipment: string[];
   photos: VehiclePhoto[];
   sourceUrl: string;
+  featured?: boolean;
 };
 
 export const vehicles: Vehicle[] = rawVehicles as Vehicle[];
@@ -69,4 +72,23 @@ export function vehicleName(vehicle: Vehicle) {
 export function vehicleInquiryMessage(vehicle: Vehicle, priceLabel: string, kmLabel: string) {
   const color = vehicle.color ? `, cor ${vehicle.color}` : "";
   return `Olá, FV Multimarcas! Vi no site o ${vehicleName(vehicle)} ${vehicle.year} (${priceLabel}, ${kmLabel}${color}) e quero mais informações.`;
+}
+
+/** Destaques do hero: flag `featured`, senão veículos mais novos e caros. */
+export function featuredVehicles(limit = 8) {
+  const flagged = vehicles.filter((vehicle) => vehicle.featured);
+  const pool =
+    flagged.length > 0
+      ? flagged
+      : [...vehicles].sort((a, b) => b.year - a.year || b.price - a.price);
+  return pool.slice(0, limit);
+}
+
+export function vehicleDetailPath(slug: string) {
+  return `/veiculo/${slug}/`;
+}
+
+/** Caminho absoluto no site (inclui basePath em GitHub Pages). */
+export function vehicleDetailHref(slug: string) {
+  return `${basePath}${vehicleDetailPath(slug)}`;
 }

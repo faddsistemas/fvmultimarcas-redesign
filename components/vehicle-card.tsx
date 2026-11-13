@@ -1,13 +1,20 @@
-import Link from "next/link";
+"use client";
+
 import { MessageCircleIcon } from "lucide-react";
 
 import SpotlightCard from "@/components/SpotlightCard";
+import { useVehiclePreview } from "@/components/vehicle-preview-provider";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { VehiclePhoto } from "@/components/vehicle-photo";
 import { categoryLabel, formatCurrency, formatKm } from "@/lib/format";
 import { whatsappHref } from "@/lib/site";
-import { vehicleInquiryMessage, vehicleName, type Vehicle } from "@/lib/vehicles";
+import {
+  vehicleDetailHref,
+  vehicleInquiryMessage,
+  vehicleName,
+  type Vehicle,
+} from "@/lib/vehicles";
 
 export function VehicleCard({
   vehicle,
@@ -16,10 +23,10 @@ export function VehicleCard({
   vehicle: Vehicle;
   priority?: boolean;
 }) {
+  const { openPreview } = useVehiclePreview();
   const price = formatCurrency(vehicle.price);
   const km = formatKm(vehicle.km);
   const href = whatsappHref(vehicleInquiryMessage(vehicle, price, km));
-
   return (
     <SpotlightCard
       theme="light"
@@ -27,7 +34,17 @@ export function VehicleCard({
       className="flex h-full flex-col p-0"
     >
       <article className="flex h-full flex-col">
-        <Link href={`/veiculo/${vehicle.slug}/`} className="flex flex-col gap-3">
+        <button
+          type="button"
+          className="flex w-full flex-col gap-3 text-left"
+          onClick={(event) => {
+            if (event.metaKey || event.ctrlKey) {
+              window.open(vehicleDetailHref(vehicle.slug), "_blank", "noopener");
+              return;
+            }
+            openPreview(vehicle);
+          }}
+        >
           <div className="relative aspect-[4/3] bg-muted">
             <VehiclePhoto
               photo={vehicle.photos[0]}
@@ -51,7 +68,10 @@ export function VehicleCard({
               {vehicle.color ?? "Cor não informada"}
             </p>
           </div>
-        </Link>
+        </button>
+        <a href={vehicleDetailHref(vehicle.slug)} className="sr-only">
+          Abrir página completa de {vehicleName(vehicle)}
+        </a>
         <div className="mt-auto flex flex-col gap-3 px-4 pt-3 pb-4">
           <p className="font-heading text-2xl font-semibold text-secondary">{price}</p>
           <Button
