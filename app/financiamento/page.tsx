@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { FinanceSimulator } from "@/components/finance-simulator";
+import { PageHero } from "@/components/page-hero";
 import { dealer } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -20,16 +21,16 @@ export const metadata: Metadata = {
 export default function FinancingPage() {
   return (
     <>
-      <header className="bg-secondary text-secondary-foreground">
+      <PageHero>
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-10">
           <h1 className="text-3xl font-semibold md:text-4xl">Financiamento</h1>
-          <p className="max-w-2xl text-base text-white">
+          <p className="max-w-2xl text-base text-primary-foreground/90">
             A loja recebe o pedido e encaminha a análise para as financeiras
             cujos logotipos publica. Este site não promete taxa, entrada nem
             aprovação.
           </p>
         </div>
-      </header>
+      </PageHero>
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-10">
         <div className="grid gap-4 md:grid-cols-3">
           <section className="rounded-xl bg-muted p-4">

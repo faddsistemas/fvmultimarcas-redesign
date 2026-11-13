@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { PageHero } from "@/components/page-hero";
 import { StockBrowser } from "@/components/stock-browser";
 import { vehicleBrands, vehicleColors, vehicleFuels, vehicles } from "@/lib/vehicles";
 
@@ -19,16 +20,16 @@ export const metadata: Metadata = {
 export default function EstoquePage() {
   return (
     <>
-      <header className="bg-secondary text-secondary-foreground">
+      <PageHero>
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-10">
           <h1 className="text-3xl font-semibold md:text-4xl">Estoque</h1>
-          <p className="max-w-2xl text-base text-white">
+          <p className="max-w-2xl text-base text-primary-foreground/90">
             {vehicles.length} anúncios publicados pela loja. Os filtros funcionam
             neste aparelho e atualizam o endereço da página, para você poder
             compartilhar a busca.
           </p>
         </div>
-      </header>
+      </PageHero>
       <div className="mx-auto w-full max-w-6xl px-4 py-8">
         <StockBrowser
           vehicles={vehicles}

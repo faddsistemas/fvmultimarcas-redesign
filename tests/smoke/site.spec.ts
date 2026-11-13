@@ -61,6 +61,10 @@ test.describe("FV Multimarcas smoke", () => {
     await page.waitForLoadState("networkidle");
     await expect(page.locator("h1")).toContainText("Estoque");
     await assertNoHorizontalScroll(page);
+    await page.screenshot({
+      path: `/opt/cursor/artifacts/estoque-${artifactVp}.png`,
+      fullPage: false,
+    });
 
     const modal = await openModalFromQuery(page);
     await assertNoHorizontalScroll(page);

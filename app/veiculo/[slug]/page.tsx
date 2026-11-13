@@ -5,6 +5,7 @@ import { MessageCircleIcon, PhoneIcon } from "lucide-react";
 
 import { FinanceSimulator } from "@/components/finance-simulator";
 import { JsonLd } from "@/components/json-ld";
+import { PageHero } from "@/components/page-hero";
 import { VehicleCard } from "@/components/vehicle-card";
 import { VehicleGallery } from "@/components/vehicle-gallery";
 import {
@@ -125,41 +126,55 @@ export default async function VehiclePage({ params }: VehiclePageProps) {
   if (vehicle.color) jsonLd.color = vehicle.color;
 
   return (
-    <article className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-8">
+    <>
       <JsonLd data={jsonLd} />
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink render={<Link href="/" />}>Início</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink render={<Link href="/estoque/" />}>Estoque</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>
-              {name} {vehicle.year}
-            </BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(18rem,0.7fr)]">
-        <VehicleGallery photos={vehicle.photos} title={`${name} ${vehicle.year}`} />
-        <div className="flex flex-col gap-4 lg:sticky lg:top-24 lg:self-start">
-          <p className="text-sm font-medium text-muted-foreground">
-            {vehicle.brand} · {categoryLabel(vehicle.category)}
-          </p>
+      <PageHero>
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-8">
+          <Breadcrumb>
+            <BreadcrumbList className="text-primary-foreground/80">
+              <BreadcrumbItem>
+                <BreadcrumbLink
+                  className="text-primary-foreground/90 hover:text-primary-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  render={<Link href="/" />}
+                >
+                  Início
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink
+                  className="text-primary-foreground/90 hover:text-primary-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  render={<Link href="/estoque/" />}
+                >
+                  Estoque
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage className="text-primary-foreground">
+                  {name} {vehicle.year}
+                </BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
           <h1 className="text-3xl font-semibold md:text-4xl">
             {name} {vehicle.year}
           </h1>
-          <p className="text-base">
+          <p className="text-base text-primary-foreground/90">
+            {vehicle.brand} · {categoryLabel(vehicle.category)}
+            <span aria-hidden="true"> · </span>
             {km}
             <span aria-hidden="true"> · </span>
             {vehicle.color ?? "Cor não informada"}
             <span aria-hidden="true"> · </span>
             {vehicle.fuel}
           </p>
+        </div>
+      </PageHero>
+      <article className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-8">
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(18rem,0.7fr)]">
+        <VehicleGallery photos={vehicle.photos} title={`${name} ${vehicle.year}`} />
+        <div className="flex flex-col gap-4 lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-xl bg-secondary p-5 text-secondary-foreground">
             <p className="text-sm">Preço anunciado</p>
             <p className="font-heading text-4xl font-semibold">{price}</p>
@@ -246,5 +261,6 @@ export default async function VehiclePage({ params }: VehiclePageProps) {
         </section>
       ) : null}
     </article>
+    </>
   );
 }

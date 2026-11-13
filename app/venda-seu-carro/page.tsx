@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { PageHero } from "@/components/page-hero";
 import { SellForm } from "@/components/sell-form";
 
 export const metadata: Metadata = {
@@ -32,16 +33,16 @@ const paths = [
 export default function SellPage() {
   return (
     <>
-      <header className="bg-secondary text-secondary-foreground">
+      <PageHero>
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-10">
           <h1 className="text-3xl font-semibold md:text-4xl">Venda seu carro</h1>
-          <p className="max-w-2xl text-base text-white">
+          <p className="max-w-2xl text-base text-primary-foreground/90">
             A FV compra, consigna e aceita troca. Preencha o que você sabe e a
             mensagem segue para o WhatsApp da loja. Não há cadastro nem envio
             para outro sistema.
           </p>
         </div>
-      </header>
+      </PageHero>
       <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
         <div className="flex flex-col gap-4">
           {paths.map((path) => (

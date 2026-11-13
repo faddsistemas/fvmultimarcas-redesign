@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { ContactForm } from "@/components/contact-form";
+import { PageHero } from "@/components/page-hero";
 import { LocationBlock } from "@/components/location-block";
 import { dealer } from "@/lib/site";
 
@@ -19,15 +20,15 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <header className="bg-secondary text-secondary-foreground">
+      <PageHero>
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-10">
           <h1 className="text-3xl font-semibold md:text-4xl">Contato</h1>
-          <p className="max-w-2xl text-base text-white">
+          <p className="max-w-2xl text-base text-primary-foreground/90">
             A loja atende no Centro de Nova Serrana. O horário de funcionamento
             não está publicado no site atual, então não inventamos um horário aqui.
           </p>
         </div>
-      </header>
+      </PageHero>
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-10">
         <div className="grid gap-8 lg:grid-cols-2">
           <section className="flex flex-col gap-3">

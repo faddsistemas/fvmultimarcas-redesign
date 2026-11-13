@@ -80,7 +80,7 @@ export default function HomePage() {
           </ul>
         </FadeContent>
       </section>
-      <section className="bg-secondary text-secondary-foreground">
+      <section className="bg-primary text-primary-foreground">
         <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-12 md:grid-cols-4">
           <Stat value={yearsOnMarket} label={`anos de loja, desde ${dealer.founded}`} />
           <Stat

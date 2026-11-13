@@ -43,17 +43,20 @@ export function SiteHeader() {
     "Olá, FV Multimarcas! Vim pelo site e quero falar com a loja.",
   );
 
+  const onPrimary =
+    "text-primary-foreground hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
+
   return (
-    <header className="sticky top-0 z-30 border-b border-border bg-background">
-      <div className="hidden bg-secondary text-secondary-foreground sm:block">
+    <header className="sticky top-0 z-30 border-b border-white/15 bg-primary text-primary-foreground">
+      <div className="hidden border-b border-white/15 sm:block">
         <div className="mx-auto flex h-10 w-full max-w-6xl items-center justify-between gap-4 px-4 text-sm">
           <p>{dealer.addressLine}</p>
           <p>
-            <a className="underline-offset-4 hover:underline" href={`tel:+${dealer.whatsappE164}`}>
+            <a className={cn("rounded-sm underline-offset-4 hover:underline", onPrimary)} href={`tel:+${dealer.whatsappE164}`}>
               {dealer.whatsappDisplay}
             </a>
             <span aria-hidden="true"> · </span>
-            <a className="underline-offset-4 hover:underline" href={`tel:+${dealer.phoneE164}`}>
+            <a className={cn("rounded-sm underline-offset-4 hover:underline", onPrimary)} href={`tel:+${dealer.phoneE164}`}>
               {dealer.phoneDisplay}
             </a>
           </p>
@@ -80,7 +83,9 @@ export function SiteHeader() {
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "inline-flex min-h-11 items-center rounded-lg px-3 text-sm font-medium",
-                  active ? "text-primary" : "text-foreground hover:bg-muted",
+                  active
+                    ? "bg-white/15 text-primary-foreground"
+                    : cn(onPrimary, "hover:underline"),
                 )}
               >
                 {item.label}
@@ -90,6 +95,8 @@ export function SiteHeader() {
         </nav>
         <div className="ml-auto hidden md:block">
           <Button
+            variant="outline"
+            className="border-white/70 bg-white text-primary hover:bg-white/90 hover:text-primary"
             render={
               <a href={whatsapp} target="_blank" rel="noopener noreferrer" />
             }
@@ -104,7 +111,7 @@ export function SiteHeader() {
             render={
               <Button
                 variant="outline"
-                className="size-11 md:hidden"
+                className="size-11 border-white/60 bg-transparent text-primary-foreground hover:bg-white/10 md:hidden"
                 aria-label="Abrir menu"
               />
             }
