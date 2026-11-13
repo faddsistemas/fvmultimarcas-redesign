@@ -1,0 +1,15 @@
+---
+description: Ponytail/YAGNI must not strip FV Multimarcas client-facing polish
+alwaysApply: true
+---
+
+# FV Multimarcas — polish is in scope
+
+This repo is a client-facing proposal site. When the **ponytail** skill or “minimal change” instincts apply, treat the following as **required deliverables**, not optional flourishes to delete:
+
+- Hero brand red gradient, featured vehicle carousel (Embla/shadcn), and accessible search on the hero
+- Vehicle preview modal (Dialog/Drawer), gallery interactions, and `?veiculo=` deep link behavior
+- React Bits motion where already used (SplitText, CountUp, FadeContent, SpotlightCard, TiltedCard) and WCAG-conscious contrast
+- shadcn/ui patterns already adopted for the redesign
+
+Ponytail’s “never cut what the user asked for” applies to Tiago’s visual and interaction requirements. Simplify only unrelated or unrequested code.
