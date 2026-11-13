@@ -1,6 +1,9 @@
 "use client";
 
+import { XIcon } from "lucide-react";
+
 import { VehiclePreviewBody } from "@/components/vehicle-preview-body";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerTitle,
@@ -35,10 +39,23 @@ export function VehiclePreviewModal({
     return (
       <Drawer open={open} onOpenChange={onOpenChange} swipeDirection="up">
         <DrawerContent
-          className="m-0 h-[100dvh] max-h-[100dvh] w-full max-w-none rounded-none border-0 [--drawer-content-max-height:100dvh] [--drawer-content-height:100dvh] [--drawer-inset:0px]"
+          className="relative m-0 h-[100dvh] max-h-[100dvh] w-full max-w-none rounded-none border-0 [--drawer-content-max-height:100dvh] [--drawer-content-height:100dvh] [--drawer-inset:0px]"
           aria-describedby="vehicle-preview-desc-mobile"
         >
-          <div className="flex h-full max-h-[100dvh] w-full max-w-full min-w-0 flex-col gap-3 overflow-x-hidden overflow-y-auto p-4 pt-6 pb-6">
+          <DrawerClose
+            render={
+              <Button
+                type="button"
+                variant="secondary"
+                size="icon"
+                aria-label="Fechar"
+                className="absolute top-[max(0.75rem,env(safe-area-inset-top))] right-3 z-30 size-11 min-h-11 min-w-11 border border-border bg-background/95 text-foreground shadow-md hover:bg-background focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+              />
+            }
+          >
+            <XIcon className="size-5" aria-hidden />
+          </DrawerClose>
+          <div className="flex h-full max-h-[100dvh] w-full max-w-full min-w-0 flex-col gap-3 overflow-x-hidden overflow-y-auto px-4 pt-16 pb-6">
             <DrawerTitle id="vehicle-preview-title" className="sr-only">
               {title}
             </DrawerTitle>

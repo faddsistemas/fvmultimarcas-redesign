@@ -75,6 +75,13 @@ test.describe("FV Multimarcas smoke", () => {
     await expect(
       page.getByRole("link", { name: /Chamar no WhatsApp/i }),
     ).toBeVisible();
+    if (isMobile) {
+      const close = page.getByRole("button", { name: "Fechar" });
+      await expect(close).toBeVisible();
+      const closeBox = await close.boundingBox();
+      expect(closeBox?.width ?? 0).toBeGreaterThanOrEqual(44);
+      expect(closeBox?.height ?? 0).toBeGreaterThanOrEqual(44);
+    }
     await expect(modal.getByText("Quilometragem", { exact: true })).toBeVisible();
     await expect(modal.getByText("Combustível", { exact: true })).toBeVisible();
     await expect(modal.getByText("Categoria", { exact: true })).toBeVisible();
