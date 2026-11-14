@@ -26,6 +26,49 @@ async function assertModalFitsViewport(page: Page) {
   ).toBeLessThanOrEqual(metrics.clientWidth + 1);
 }
 
+async function assertHeroFullBleed(page: Page) {
+  await expect(page.getByTestId("hero-stage")).toHaveCount(0);
+  const blurLayers = page.locator('[data-testid="cinematic-hero"] [style*="blur("]');
+  await expect(blurLayers).toHaveCount(0);
+
+  const coversHero = await page.getByTestId("hero-media").evaluate((media) => {
+    const hero = media.closest('[data-testid="cinematic-hero"]');
+    if (!hero) return false;
+    const heroRect = hero.getBoundingClientRect();
+    const mediaRect = media.getBoundingClientRect();
+    const activeImg = media.querySelector(
+      '[data-hero-slide-active="true"] img',
+    ) as HTMLImageElement | null;
+    if (!activeImg) return false;
+    const imgRect = activeImg.getBoundingClientRect();
+    const widthOk =
+      Math.abs(mediaRect.width - heroRect.width) < 2 &&
+      Math.abs(mediaRect.height - heroRect.height) < 2;
+    const imgCovers =
+      imgRect.width >= heroRect.width * 0.98 &&
+      imgRect.height >= heroRect.height * 0.98;
+    return widthOk && imgCovers;
+  });
+  expect(coversHero).toBe(true);
+}
+
+async function captureHeroSlides(page: Page, artifactVp: string) {
+  const slideCount = await page.locator("[data-hero-slide]").count();
+  expect(slideCount).toBeGreaterThanOrEqual(2);
+  for (let slide = 1; slide <= slideCount; slide += 1) {
+    if (slide > 1) {
+      await page.waitForTimeout(10_500);
+    }
+    await assertHeroFullBleed(page);
+    if (slide <= 2) {
+      await page.screenshot({
+        path: `/opt/cursor/artifacts/hero-${artifactVp}-slide-${slide}.png`,
+        fullPage: false,
+      });
+    }
+  }
+}
+
 async function assertNoHorizontalScroll(page: Page) {
   const fits = await page.evaluate(() => {
     const root = document.documentElement;
@@ -72,6 +115,7 @@ test.describe("FV Multimarcas smoke", () => {
   });
 
   test("responsive layout, modal and navigation", async ({ page }, testInfo) => {
+    test.setTimeout(120_000);
     const errors = trackConsoleErrors(page);
     const isMobile = testInfo.project.name === "mobile";
     const artifactVp = isMobile ? "390" : "1280";
@@ -106,17 +150,8 @@ test.describe("FV Multimarcas smoke", () => {
     }
     await page.evaluate(() => window.scrollTo(0, 0));
 
-    await page.screenshot({
-      path: `/opt/cursor/artifacts/hero-${artifactVp}-slide-1.png`,
-      fullPage: false,
-    });
-  if (await page.getByRole("button", { name: /Pausar movimento do destaque/i }).isVisible()) {
-      await page.waitForTimeout(10_500);
-      await page.screenshot({
-        path: `/opt/cursor/artifacts/hero-${artifactVp}-slide-2.png`,
-        fullPage: false,
-      });
-    }
+    await assertHeroFullBleed(page);
+    await captureHeroSlides(page, artifactVp);
 
     await page.screenshot({
       path: `/opt/cursor/artifacts/home-${artifactVp}.png`,

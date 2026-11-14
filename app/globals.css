@@ -141,17 +141,17 @@
   }
 }
 
-@keyframes hero-bg-drift {
+@keyframes hero-ken-burns {
   from {
-    transform: scale(1.06);
+    transform: scale(1);
   }
   to {
-    transform: scale(1.09);
+    transform: scale(1.04);
   }
 }
 
-.hero-bg-drift-active {
-  animation: hero-bg-drift 9s ease-out forwards;
+.hero-ken-burns-active {
+  animation: hero-ken-burns 9s ease-out forwards;
 }
 
 .scroll-reveal,
@@ -188,7 +188,7 @@ html.motion-reveal-ready .is-revealed {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-bg-drift-active {
+  .hero-ken-burns-active {
     animation: none;
   }
 

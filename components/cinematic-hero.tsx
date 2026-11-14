@@ -6,35 +6,14 @@ import { ChevronDownIcon, PauseIcon, PlayIcon } from "lucide-react";
 
 import { SiteImage } from "@/components/site-image";
 import { Button } from "@/components/ui/button";
-import { publicPath } from "@/lib/site";
-import { usePrefersReducedMotion } from "@/lib/use-media-query";
-import { featuredVehicles } from "@/lib/vehicles";
+import { buildHeroSlides, type HeroSlideFrame } from "@/lib/hero-slides";
+import { useMediaQuery, usePrefersReducedMotion } from "@/lib/use-media-query";
 import { cn } from "cn";
-
-type HeroSlide = {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-};
 
 export function CinematicHero() {
   const reducedMotion = usePrefersReducedMotion();
-  const slides = useMemo<HeroSlide[]>(() => {
-    const featured = featuredVehicles();
-    return featured.slice(0, 4).flatMap((vehicle) => {
-      const photo = vehicle.photos[0];
-      if (!photo) return [];
-      return [
-        {
-          src: photo.src,
-          alt: photo.alt,
-          width: photo.width,
-          height: photo.height,
-        },
-      ];
-    });
-  }, []);
+  const isMobile = useMediaQuery("(max-width: 767px)");
+  const slides = useMemo<HeroSlideFrame[]>(() => buildHeroSlides(4), []);
 
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -61,95 +40,82 @@ export function CinematicHero() {
   return (
     <section
       data-testid="cinematic-hero"
-      className="relative isolate -mt-16 flex h-[100svh] max-h-[100svh] min-h-[100svh] w-full flex-col overflow-hidden bg-black pt-16 text-white sm:-mt-[6.5rem] sm:pt-[6.5rem]"
+      className="relative isolate -mt-16 flex h-[100svh] max-h-[100svh] min-h-[100svh] w-full flex-col justify-end overflow-hidden bg-black pt-16 text-white sm:-mt-[6.5rem] sm:pt-[6.5rem]"
       aria-label="Destaque da FV Multimarcas"
     >
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+      <div
+        className="pointer-events-none absolute inset-0"
+        data-testid="hero-media"
+        aria-hidden="true"
+      >
         {slides.map((slide, index) => {
           const isActive = index === active;
-          const bg = publicPath(slide.src);
+          const objectPosition = isMobile
+            ? slide.mobileObjectPosition
+            : slide.desktopObjectPosition;
           return (
             <div
               key={`${slide.src}-${index}`}
+              data-hero-slide={index}
+              data-hero-slide-active={isActive ? "true" : "false"}
               className={cn(
                 "absolute inset-0 transition-opacity duration-[1200ms] ease-out",
                 isActive ? "opacity-100" : "opacity-0",
               )}
             >
-              <div
-                className={cn(
-                  "absolute inset-0 scale-105 bg-cover bg-center",
-                  isActive && !reducedMotion && !paused && "hero-bg-drift-active",
-                )}
-                style={{
-                  backgroundImage: `url(${bg})`,
-                  filter: "blur(28px) brightness(0.45) saturate(1.15)",
-                }}
-              />
-            </div>
-          );
-        })}
-        <div className="absolute inset-0 bg-black/35" />
-        <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-black/70 via-black/40 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/80 via-black/35 to-transparent md:h-56" />
-      </div>
-
-      <div className="relative z-10 flex min-h-0 flex-1 flex-col">
-        <div
-          className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 pb-2 pt-2 md:min-h-0 md:pb-0"
-          data-testid="hero-stage"
-        >
-          <div className="relative flex min-h-[min(42svh,22rem)] flex-1 items-center justify-center py-2 sm:min-h-[min(46svh,26rem)] md:min-h-0 md:flex-[1.15] md:py-4">
-            {slides.map((slide, index) => {
-              const isActive = index === active;
-              return (
+              <div className="absolute inset-0 overflow-hidden bg-black">
                 <div
-                  key={`car-${slide.src}-${index}`}
                   className={cn(
-                    "absolute inset-x-4 inset-y-2 flex items-center justify-center transition-opacity duration-[1200ms] ease-out md:inset-x-8",
-                    isActive ? "opacity-100" : "opacity-0",
+                    "absolute inset-0",
+                    isActive && !reducedMotion && !paused && "hero-ken-burns-active",
                   )}
                 >
                   <SiteImage
                     src={slide.src}
                     alt={slide.alt}
-                    width={slide.width}
-                    height={slide.height}
+                    fill
                     priority={index === 0}
-                    className="max-h-full w-auto max-w-full object-contain object-center drop-shadow-[0_24px_48px_rgba(0,0,0,0.55)]"
+                    sizes="100vw"
+                    className="object-cover"
+                    style={{ objectPosition }}
                   />
                 </div>
-              );
-            })}
-          </div>
-
-          <div className="relative z-10 flex shrink-0 flex-col gap-3 pb-10 pt-2 md:max-w-3xl md:gap-4 md:pb-14 md:pt-0">
-            <p className="text-sm font-semibold tracking-wide text-white/90">
-              Nova Serrana · desde 2005
-            </p>
-            <h1 className="font-heading text-[clamp(1.65rem,5.2vw,3.25rem)] font-semibold leading-[1.08] text-white">
-              Seu próximo veículo está em Nova Serrana.
-            </h1>
-            <p className="max-w-xl text-sm text-white/85 md:text-base">
-              A FV Multimarcas compra, vende, troca, consigna e financia carros e motos na Rua Dimas
-              Guimarães. O estoque desta página é o que a loja publicou.
-            </p>
-            <div className="flex flex-wrap items-center gap-2 md:gap-3">
-              <Button
-                render={<Link href="/estoque/" />}
-                className="h-10 rounded-full border border-white/25 bg-white/15 px-5 text-sm text-white shadow-none backdrop-blur-md hover:bg-white/25 md:h-11 md:px-6"
-              >
-                Ver estoque publicado
-              </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                className="h-10 rounded-full border border-white/20 bg-black/20 px-4 text-sm text-white backdrop-blur-sm hover:bg-white/10 md:h-11 md:px-5"
-                onClick={scrollToSearch}
-              >
-                Buscar veículo
-              </Button>
+              </div>
             </div>
+          );
+        })}
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/75 via-black/45 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/35 to-black/15" />
+        <div className="absolute inset-x-0 bottom-0 h-[min(52%,22rem)] bg-gradient-to-t from-black/92 via-black/55 to-transparent" />
+      </div>
+
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-12 pt-8 md:px-8 md:pb-16">
+        <div className="max-w-3xl space-y-3 text-left md:space-y-4">
+          <p className="text-sm font-semibold tracking-wide text-white/90">
+            Nova Serrana · desde 2005
+          </p>
+          <h1 className="font-heading text-[clamp(1.75rem,5vw,3.5rem)] font-semibold leading-[1.06] text-white">
+            Seu próximo veículo está em Nova Serrana.
+          </h1>
+          <p className="max-w-xl text-sm text-white/88 md:text-lg">
+            A FV Multimarcas compra, vende, troca, consigna e financia carros e motos na Rua Dimas
+            Guimarães. O estoque desta página é o que a loja publicou.
+          </p>
+          <div className="flex flex-wrap items-center gap-2 pt-1 md:gap-3">
+            <Button
+              render={<Link href="/estoque/" />}
+              className="h-10 rounded-full border border-white/25 bg-white/15 px-5 text-sm text-white shadow-none backdrop-blur-md hover:bg-white/25 md:h-11 md:px-6"
+            >
+              Ver estoque publicado
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              className="h-10 rounded-full border border-white/20 bg-black/20 px-4 text-sm text-white backdrop-blur-sm hover:bg-white/10 md:h-11 md:px-5"
+              onClick={scrollToSearch}
+            >
+              Buscar veículo
+            </Button>
           </div>
         </div>
       </div>
