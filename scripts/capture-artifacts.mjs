@@ -3,7 +3,7 @@ import { mkdir } from "node:fs/promises";
 
 const base =
   process.env.PREVIEW_BASE ||
-  "https://tiiandradee2.github.io/fvmultimarcas-redesign/";
+  "https://faddsistemas.github.io/fvmultimarcas-redesign/";
 const outDir = "/opt/cursor/artifacts";
 
 await mkdir(outDir, { recursive: true });

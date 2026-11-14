@@ -2,7 +2,7 @@
 
 Site estático da revenda FV Multimarcas (Nova Serrana–MG), feito em Next.js para publicar no GitHub Pages.
 
-Endereço previsto: https://tiiandradee2.github.io/fvmultimarcas-redesign/
+Endereço previsto: https://faddsistemas.github.io/fvmultimarcas-redesign/
 
 ## Como rodar
 
@@ -17,7 +17,7 @@ Build igual ao das páginas do GitHub:
 
 ```bash
 NEXT_PUBLIC_BASE_PATH=/fvmultimarcas-redesign \
-NEXT_PUBLIC_SITE_URL=https://tiiandradee2.github.io/fvmultimarcas-redesign \
+NEXT_PUBLIC_SITE_URL=https://faddsistemas.github.io/fvmultimarcas-redesign \
 npm run build
 ```
 

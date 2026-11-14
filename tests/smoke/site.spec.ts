@@ -12,7 +12,10 @@ async function assertNoHorizontalScroll(page: Page) {
     const root = document.documentElement;
     return root.scrollWidth <= window.innerWidth + 1;
   });
-  expect(fits, `scrollWidth ${await page.evaluate(() => document.documentElement.scrollWidth)} > innerWidth ${await page.evaluate(() => window.innerWidth)}`).toBe(true);
+  expect(
+    fits,
+    `scrollWidth ${await page.evaluate(() => document.documentElement.scrollWidth)} > innerWidth ${await page.evaluate(() => window.innerWidth)}`,
+  ).toBe(true);
 }
 
 async function openModalFromQuery(page: Page) {
@@ -37,6 +40,18 @@ function trackConsoleErrors(page: Page) {
 }
 
 test.describe("FV Multimarcas smoke", () => {
+  test("hero and content visible with prefers-reduced-motion", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("");
+    await page.waitForLoadState("domcontentloaded");
+    const hero = page.getByTestId("cinematic-hero");
+    await expect(hero).toBeVisible({ timeout: 15_000 });
+    await expect(page.locator("h1").first()).toBeVisible();
+    await expect(page.locator("#busca-estoque")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Estoque publicado" })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Chamar no WhatsApp/i }).first()).toBeVisible();
+  });
+
   test("responsive layout, modal and navigation", async ({ page }, testInfo) => {
     const errors = trackConsoleErrors(page);
     const isMobile = testInfo.project.name === "mobile";
@@ -47,14 +62,17 @@ test.describe("FV Multimarcas smoke", () => {
     await expect(page.locator("h1").first()).toContainText("Seu próximo veículo", {
       timeout: 15_000,
     });
-    await expect(page.locator('[data-slot="carousel"]')).toBeVisible();
-    const hero = page.locator('section:has([data-slot="carousel"])');
-    await expect(hero).toHaveAttribute("class", /CF1B1C|gradient|8B0000/i);
+    await expect(page.getByTestId("cinematic-hero")).toBeVisible();
     await assertNoHorizontalScroll(page);
 
     await page.screenshot({
       path: `/opt/cursor/artifacts/hero-${artifactVp}.png`,
       fullPage: false,
+    });
+
+    await page.screenshot({
+      path: `/opt/cursor/artifacts/home-${artifactVp}.png`,
+      fullPage: true,
     });
 
     await page.goto("estoque/");
@@ -116,11 +134,26 @@ test.describe("FV Multimarcas smoke", () => {
     await assertNoHorizontalScroll(page);
 
     if (!isMobile) {
+      await page.setViewportSize({ width: 1280, height: 720 });
+      await page.goto(`?veiculo=${MODAL_SLUG}`);
+      await page.waitForLoadState("networkidle");
+      const dialog720 = page.locator('[data-slot="dialog-content"]');
+      await expect(dialog720).toBeVisible();
+      await expect(
+        dialog720.getByRole("link", { name: /Ver anúncio completo/i }),
+      ).toBeVisible();
+      await expect(
+        dialog720.getByRole("link", { name: /Chamar no WhatsApp/i }),
+      ).toBeVisible();
+      await page.keyboard.press("Escape");
+      await expect(dialog720).toBeHidden({ timeout: 5000 });
+    }
+
+    if (!isMobile) {
+      await page.setViewportSize({ width: 1280, height: 900 });
       await page.goto("");
-      const carouselSlide = page
-        .locator('[data-slot="carousel"] article button')
-        .first();
-      await carouselSlide.click();
+      const cardButton = page.locator('article button:has(h3)').first();
+      await cardButton.click();
       const opened = page.locator(
         '[data-slot="dialog-content"], [data-slot="drawer-content"]',
       );

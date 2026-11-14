@@ -33,7 +33,7 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_BASE_PATH: /fvmultimarcas-redesign
-          NEXT_PUBLIC_SITE_URL: https://tiiandradee2.github.io/fvmultimarcas-redesign
+          NEXT_PUBLIC_SITE_URL: https://faddsistemas.github.io/fvmultimarcas-redesign
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
