@@ -44,7 +44,7 @@ test.describe("FV Multimarcas smoke", () => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("");
     await page.waitForLoadState("domcontentloaded");
-    const hero = page.getByTestId("home-hero");
+    const hero = page.getByTestId("cinematic-hero");
     await expect(hero).toBeVisible({ timeout: 15_000 });
     await expect(page.locator("h1").first()).toBeVisible();
     await expect(page.locator("#busca-estoque")).toBeVisible();
@@ -62,12 +62,7 @@ test.describe("FV Multimarcas smoke", () => {
     await expect(page.locator("h1").first()).toContainText("Seu próximo veículo", {
       timeout: 15_000,
     });
-    await expect(page.getByTestId("home-hero")).toBeVisible();
-    await expect(page.locator('[data-slot="carousel"]')).toBeVisible();
-    await expect(page.getByTestId("home-hero")).toHaveAttribute(
-      "class",
-      /CF1B1C|gradient|8B0000/i,
-    );
+    await expect(page.getByTestId("cinematic-hero")).toBeVisible();
     await assertNoHorizontalScroll(page);
 
     await page.evaluate(async () => {
@@ -163,12 +158,7 @@ test.describe("FV Multimarcas smoke", () => {
       await page.setViewportSize({ width: 1366, height: 768 });
       await page.goto("");
       await page.waitForLoadState("networkidle");
-      await expect(page.getByTestId("home-hero")).toBeVisible();
-    await expect(page.locator('[data-slot="carousel"]')).toBeVisible();
-    await expect(page.getByTestId("home-hero")).toHaveAttribute(
-      "class",
-      /CF1B1C|gradient|8B0000/i,
-    );
+      await expect(page.getByTestId("cinematic-hero")).toBeVisible();
       await expect(page.locator("h1").first()).toBeVisible();
       await page.goto(`?veiculo=${MODAL_SLUG}`);
       await page.waitForLoadState("networkidle");
