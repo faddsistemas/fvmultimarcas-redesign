@@ -61,7 +61,7 @@ export function CinematicHero() {
   return (
     <section
       data-testid="cinematic-hero"
-      className="relative isolate flex min-h-[min(100svh,52rem)] w-full flex-col justify-end overflow-hidden bg-black text-white md:min-h-[calc(100svh-4rem)]"
+      className="relative isolate -mt-16 flex min-h-[min(100svh,52rem)] w-full flex-col justify-end overflow-hidden bg-black pt-16 text-white sm:-mt-[6.5rem] sm:pt-[6.5rem] md:min-h-[100svh]"
       aria-label="Destaque da FV Multimarcas"
     >
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
@@ -94,7 +94,7 @@ export function CinematicHero() {
           );
         })}
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/25" />
-        <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/55 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/75 via-black/45 to-transparent" />
       </div>
 
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-5 px-4 pb-12 pt-8 md:pb-16 md:pt-12">

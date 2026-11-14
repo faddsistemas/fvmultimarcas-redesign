@@ -63,6 +63,7 @@ test.describe("FV Multimarcas smoke", () => {
       timeout: 15_000,
     });
     await expect(page.getByTestId("cinematic-hero")).toBeVisible();
+    await expect(page.locator('[data-site-header]')).toHaveAttribute("data-header-mode", "overlay");
     await assertNoHorizontalScroll(page);
 
     await page.evaluate(async () => {
