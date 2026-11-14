@@ -163,6 +163,7 @@
 html.motion-reveal-ready [data-reveal="pending"] {
   opacity: 0;
   transform: translateY(var(--reveal-y, 20px));
+  transition: none;
 }
 
 html.motion-reveal-ready [data-reveal="shown"],

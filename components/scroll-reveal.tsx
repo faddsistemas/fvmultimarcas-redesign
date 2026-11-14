@@ -53,19 +53,15 @@ export function ScrollReveal({
         ? (Array.from(root.children) as HTMLElement[])
         : [root];
 
-    const applyPending = (el: HTMLElement, index: number) => {
-      el.dataset.reveal = "pending";
+    const setRevealVars = (el: HTMLElement, index: number) => {
       el.style.setProperty("--reveal-y", `${offsetY}px`);
       el.style.setProperty("--reveal-duration", `${durationMs}ms`);
       el.style.setProperty("--reveal-delay", `${delayMs + index * staggerMs}ms`);
       el.style.setProperty("--reveal-ease", REVEAL_EASE);
     };
 
-    items.forEach(applyPending);
-
     const reveal = (el: HTMLElement) => {
       el.dataset.reveal = "shown";
-      el.classList.add("is-revealed");
     };
 
     const observer = new IntersectionObserver(
@@ -79,16 +75,14 @@ export function ScrollReveal({
       { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
     );
 
-    for (const el of items) {
+    items.forEach((el, index) => {
       const rect = el.getBoundingClientRect();
-      const inView =
-        rect.top < window.innerHeight * 0.92 && rect.bottom > window.innerHeight * 0.08;
-      if (inView) {
-        reveal(el);
-      } else {
-        observer.observe(el);
-      }
-    }
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (inView) return;
+      setRevealVars(el, index);
+      el.dataset.reveal = "pending";
+      observer.observe(el);
+    });
 
     return () => observer.disconnect();
   }, [delayMs, durationMs, offsetY, reducedMotion, staggerMs]);

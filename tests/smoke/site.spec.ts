@@ -134,6 +134,24 @@ test.describe("FV Multimarcas smoke", () => {
     await assertNoHorizontalScroll(page);
 
     if (!isMobile) {
+      await page.setViewportSize({ width: 1366, height: 768 });
+      await page.goto("");
+      await page.waitForLoadState("networkidle");
+      await expect(page.getByTestId("cinematic-hero")).toBeVisible();
+      await expect(page.locator("h1").first()).toBeVisible();
+      await page.goto(`?veiculo=${MODAL_SLUG}`);
+      await page.waitForLoadState("networkidle");
+      const dialog1366 = page.locator('[data-slot="dialog-content"]');
+      await expect(dialog1366).toBeVisible();
+      await expect(
+        dialog1366.getByRole("link", { name: /Ver anúncio completo/i }),
+      ).toBeVisible();
+      await expect(
+        dialog1366.getByRole("link", { name: /Chamar no WhatsApp/i }),
+      ).toBeVisible();
+      await page.keyboard.press("Escape");
+      await expect(dialog1366).toBeHidden({ timeout: 5000 });
+
       await page.setViewportSize({ width: 1280, height: 720 });
       await page.goto(`?veiculo=${MODAL_SLUG}`);
       await page.waitForLoadState("networkidle");
