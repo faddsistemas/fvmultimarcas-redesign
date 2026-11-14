@@ -45,7 +45,7 @@ export function VehicleCard({
           <VehiclePhoto
             photo={vehicle.photos[0]}
             priority={priority}
-            sizes="(min-width: 1280px) 22vw, (min-width: 768px) 45vw, 100vw"
+            sizes="(min-width: 1280px) 18rem, (min-width: 768px) 45vw, 100vw"
             className={cn(
               "h-full w-full object-cover transition-transform duration-500 ease-out motion-reduce:transform-none",
               "motion-safe:group-hover:scale-[1.04] motion-safe:group-focus-visible:scale-[1.04]",
