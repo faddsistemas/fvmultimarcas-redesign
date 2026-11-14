@@ -4,11 +4,16 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChevronDownIcon, PauseIcon, PlayIcon } from "lucide-react";
 
-import { HeroSlidePicture } from "@/components/hero-slide-picture";
+import {
+  HeroSlideMobileImage,
+  HeroSlidePicture,
+} from "@/components/hero-slide-picture";
 import { Button } from "@/components/ui/button";
 import { buildHeroSlides, type HeroSlideFrame } from "@/lib/hero-slides";
 import { usePrefersReducedMotion } from "@/lib/use-media-query";
 import { cn } from "cn";
+
+const HERO_PANEL_BG = "#0b0b0b";
 
 export function CinematicHero() {
   const reducedMotion = usePrefersReducedMotion();
@@ -39,11 +44,42 @@ export function CinematicHero() {
   return (
     <section
       data-testid="cinematic-hero"
-      className="relative isolate -mt-16 flex h-[100svh] max-h-[100svh] min-h-[100svh] w-full flex-col justify-end overflow-hidden bg-black pt-16 text-white sm:-mt-[6.5rem] sm:pt-[6.5rem]"
+      className="relative isolate -mt-16 flex h-[100svh] max-h-[100svh] min-h-[100svh] w-full flex-col overflow-hidden pt-16 text-white sm:-mt-[6.5rem] sm:pt-[6.5rem] md:justify-end md:bg-black"
+      style={{ backgroundColor: HERO_PANEL_BG }}
       aria-label="Destaque da FV Multimarcas"
     >
       <div
-        className="pointer-events-none absolute inset-0"
+        data-testid="hero-media-mobile"
+        className="relative max-h-[min(44svh,17.5rem)] min-h-0 w-full shrink overflow-hidden md:hidden"
+      >
+        {slides.map((slide, index) => {
+          const isActive = index === active;
+          return (
+            <div
+              key={`m-${slide.mobile.src}-${index}`}
+              data-hero-slide={index}
+              data-hero-slide-active={isActive ? "true" : "false"}
+              className={cn(
+                "w-full transition-opacity duration-[1200ms] ease-out",
+                isActive ? "relative opacity-100" : "pointer-events-none absolute inset-x-0 top-0 opacity-0",
+              )}
+            >
+              <HeroSlideMobileImage slide={slide} priority={index === 0} />
+            </div>
+          );
+        })}
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/70 via-black/35 to-transparent"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0b0b0b] via-[#0b0b0b]/85 to-transparent"
+          aria-hidden
+        />
+      </div>
+
+      <div
+        className="pointer-events-none absolute inset-0 hidden md:block"
         data-testid="hero-media"
         aria-hidden="true"
       >
@@ -51,7 +87,7 @@ export function CinematicHero() {
           const isActive = index === active;
           return (
             <div
-              key={`${slide.desktop.src}-${slide.mobile.src}-${index}`}
+              key={`d-${slide.desktop.src}-${slide.mobile.src}-${index}`}
               data-hero-slide={index}
               data-hero-slide-active={isActive ? "true" : "false"}
               className={cn(
@@ -76,23 +112,26 @@ export function CinematicHero() {
           );
         })}
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/75 via-black/45 to-transparent" />
-        <div className="absolute inset-0 hidden bg-gradient-to-r from-black/80 via-black/35 to-black/15 md:block" />
-        <div className="absolute inset-x-0 bottom-0 h-[min(46%,13.5rem)] bg-gradient-to-t from-black/95 via-black/55 to-transparent md:h-[min(52%,22rem)]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/35 to-black/15" />
+        <div className="absolute inset-x-0 bottom-0 h-[min(52%,22rem)] bg-gradient-to-t from-black/95 via-black/55 to-transparent" />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-[calc(3.5rem+env(safe-area-inset-bottom,0px)+0.75rem)] pt-4 md:px-8 md:pb-16 md:pt-8">
-        <div className="max-w-3xl space-y-2 text-left md:space-y-4">
+      <div className="relative z-10 mt-auto min-h-0 w-full shrink-0 bg-[#0b0b0b] px-4 pb-[calc(3.5rem+env(safe-area-inset-bottom,0px)+0.5rem)] pt-2 md:mx-auto md:max-w-6xl md:shrink md:bg-transparent md:px-8 md:pb-16 md:pt-8">
+        <div className="max-w-3xl space-y-1.5 text-left md:space-y-4">
           <p className="text-xs font-semibold tracking-wide text-white/90 md:text-sm">
             Nova Serrana · desde 2005
           </p>
-          <h1 className="font-heading text-[clamp(1.5rem,6.5vw,3.5rem)] font-semibold leading-[1.08] text-white">
+          <h1 className="font-heading text-[clamp(1.35rem,5.8vw,3.5rem)] font-semibold leading-[1.06] text-white">
             Seu próximo veículo está em Nova Serrana.
           </h1>
           <p className="hidden max-w-xl text-sm text-white/88 md:block md:text-lg">
             A FV Multimarcas compra, vende, troca, consigna e financia carros e motos na Rua Dimas
             Guimarães. O estoque desta página é o que a loja publicou.
           </p>
-          <div className="flex flex-wrap items-center gap-2 pt-0.5 md:gap-3 md:pt-1">
+          <div
+            data-testid="hero-ctas"
+            className="flex flex-wrap items-center gap-2 pt-0.5 md:gap-3 md:pt-1"
+          >
             <Button
               render={<Link href="/estoque/" />}
               className="h-9 rounded-full border border-white/25 bg-white/15 px-4 text-xs text-white shadow-none backdrop-blur-md hover:bg-white/25 md:h-11 md:px-6 md:text-sm"
@@ -111,7 +150,7 @@ export function CinematicHero() {
         </div>
       </div>
 
-      <div className="absolute bottom-[calc(3.5rem+env(safe-area-inset-bottom,0px)+0.75rem)] left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-1 text-white/80 md:bottom-5">
+      <div className="absolute bottom-5 left-1/2 z-20 hidden -translate-x-1/2 flex-col items-center gap-1 text-white/80 md:flex">
         <button
           type="button"
           onClick={scrollToSearch}
@@ -127,7 +166,7 @@ export function CinematicHero() {
           type="button"
           variant="ghost"
           size="icon"
-          className="absolute right-4 bottom-[calc(3.5rem+env(safe-area-inset-bottom,0px)+0.75rem)] z-20 size-11 rounded-full border border-white/25 bg-black/30 text-white backdrop-blur-md hover:bg-black/45 md:bottom-5"
+          className="absolute top-[max(4.5rem,env(safe-area-inset-top)+3.5rem)] right-3 z-20 size-10 rounded-full border border-white/25 bg-black/30 text-white backdrop-blur-md hover:bg-black/45 md:top-auto md:right-4 md:bottom-5 md:size-11"
           aria-pressed={paused}
           aria-label={paused ? "Retomar movimento do destaque" : "Pausar movimento do destaque"}
           onClick={() => setPaused((value) => !value)}

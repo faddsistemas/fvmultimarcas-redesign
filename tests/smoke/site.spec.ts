@@ -31,6 +31,29 @@ async function assertHeroFullBleed(page: Page) {
   const blurLayers = page.locator('[data-testid="cinematic-hero"] [style*="blur("]');
   await expect(blurLayers).toHaveCount(0);
 
+  const isMobile = await page.evaluate(() =>
+    window.matchMedia("(max-width: 767px)").matches,
+  );
+
+  if (isMobile) {
+    const mobileMedia = page.getByTestId("hero-media-mobile");
+    const mobileOk = await mobileMedia.evaluate((root) => {
+      const active = root.querySelector('[data-hero-slide-active="true"]');
+      if (!active) return { single: false, edgeToEdge: false };
+      const imgs = [...active.querySelectorAll("img")];
+      const img = imgs[0];
+      if (!img || imgs.length !== 1) return { single: false, edgeToEdge: false };
+      const imgRect = img.getBoundingClientRect();
+      return {
+        single: true,
+        edgeToEdge: Math.abs(imgRect.width - window.innerWidth) < 2,
+      };
+    });
+    expect(mobileOk.single).toBe(true);
+    expect(mobileOk.edgeToEdge).toBe(true);
+    return;
+  }
+
   const coversHero = await page.getByTestId("hero-media").evaluate((media) => {
     const hero = media.closest('[data-testid="cinematic-hero"]');
     if (!hero) return false;
@@ -52,7 +75,7 @@ async function assertHeroFullBleed(page: Page) {
     return widthOk && imgCovers;
   });
   expect(coversHero).toBe(true);
-  const slideCount = await page.locator("[data-hero-slide]").count();
+  const slideCount = await page.getByTestId("hero-media").locator("[data-hero-slide]").count();
   await expect(page.locator('[data-testid="hero-media"] picture')).toHaveCount(
     slideCount,
   );
@@ -89,7 +112,13 @@ async function assertHeroCtasAboveContactBar(page: Page) {
 }
 
 async function captureHeroSlides(page: Page, artifactVp: string) {
-  const slideCount = await page.locator("[data-hero-slide]").count();
+  const isMobile = await page.evaluate(() =>
+    window.matchMedia("(max-width: 767px)").matches,
+  );
+  const media = isMobile
+    ? page.getByTestId("hero-media-mobile")
+    : page.getByTestId("hero-media");
+  const slideCount = await media.locator("[data-hero-slide]").count();
   expect(slideCount).toBeGreaterThanOrEqual(2);
   for (let slide = 1; slide <= slideCount; slide += 1) {
     if (slide > 1) {
@@ -99,7 +128,8 @@ async function captureHeroSlides(page: Page, artifactVp: string) {
     if (artifactVp === "390" || artifactVp === "360" || artifactVp === "375") {
       await assertHeroCtasAboveContactBar(page);
     }
-    const saveShot = artifactVp === "390" || slide <= 2;
+    const saveShot =
+      artifactVp === "390" || (artifactVp === "1280" && slide <= 2);
     if (saveShot) {
       await page.screenshot({
         path: `/opt/cursor/artifacts/hero-${artifactVp}-slide-${slide}.png`,

@@ -6,8 +6,6 @@ export type HeroSlideMedia = {
   width: number;
   height: number;
   objectPosition: string;
-  /** Só no mobile: leve zoom-out para o carro caber com folga lateral (< 1). */
-  mobileScale?: number;
 };
 
 export type HeroSlideFrame = {
@@ -20,7 +18,6 @@ type HeroOverride = {
   mobilePhotoIndex?: number;
   desktopObjectPosition?: string;
   mobileObjectPosition?: string;
-  mobileScale?: number;
 };
 
 /**
@@ -30,31 +27,23 @@ type HeroOverride = {
 const HERO_OVERRIDES: Record<string, HeroOverride> = {
   "t-cross-2026": {
     desktopPhotoIndex: 2,
-    mobilePhotoIndex: 0,
+    mobilePhotoIndex: 1,
     desktopObjectPosition: "58% center",
-    mobileObjectPosition: "54% 30%",
-    mobileScale: 0.92,
   },
   "fiat-mobi-like-2025-cinza": {
     desktopPhotoIndex: 2,
-    mobilePhotoIndex: 0,
+    mobilePhotoIndex: 1,
     desktopObjectPosition: "55% center",
-    mobileObjectPosition: "52% 28%",
-    mobileScale: 0.93,
   },
   "fiat-mobi-like-2025-branca": {
     desktopPhotoIndex: 2,
-    mobilePhotoIndex: 0,
+    mobilePhotoIndex: 2,
     desktopObjectPosition: "56% center",
-    mobileObjectPosition: "51% 30%",
-    mobileScale: 0.93,
   },
   "fiat-argo-drive-2024": {
     desktopPhotoIndex: 4,
-    mobilePhotoIndex: 0,
+    mobilePhotoIndex: 2,
     desktopObjectPosition: "52% center",
-    mobileObjectPosition: "50% 32%",
-    mobileScale: 0.94,
   },
 };
 
@@ -87,18 +76,13 @@ function pickPortraitPhotoIndex(vehicle: Vehicle) {
   return best;
 }
 
-function toMedia(
-  photo: VehiclePhoto,
-  objectPosition: string,
-  mobileScale?: number,
-): HeroSlideMedia {
+function toMedia(photo: VehiclePhoto, objectPosition: string): HeroSlideMedia {
   return {
     src: photo.src,
     alt: photo.alt,
     width: photo.width,
     height: photo.height,
     objectPosition,
-    ...(mobileScale !== undefined ? { mobileScale } : {}),
   };
 }
 
@@ -139,7 +123,6 @@ export function buildHeroSlides(limit = 4): HeroSlideFrame[] {
             mobilePhoto,
             override.mobileObjectPosition ??
               defaultObjectPosition(mobileAspect, "mobile"),
-            override.mobileScale,
           ),
         },
       ];

@@ -4,6 +4,7 @@ import { publicPath } from "@/lib/site";
 import type { HeroSlideFrame } from "@/lib/hero-slides";
 import { cn } from "cn";
 
+/** Full-bleed desktop art direction (picture + cover). */
 export function HeroSlidePicture({
   slide,
   priority,
@@ -14,43 +15,48 @@ export function HeroSlidePicture({
   className?: string;
 }) {
   const desktopSrc = publicPath(slide.desktop.src);
-  const mobileSrc = publicPath(slide.mobile.src);
-  const mobileScale = slide.mobile.mobileScale ?? 1;
   const pictureStyle = {
-    "--hero-pos-mobile": slide.mobile.objectPosition,
     "--hero-pos-desktop": slide.desktop.objectPosition,
-    "--hero-mobile-scale": String(mobileScale),
   } as CSSProperties;
 
   return (
-  <div className={cn("absolute inset-0", className)}>
+    <picture
+      className={cn("hero-art-picture absolute inset-0 block h-full w-full", className)}
+    >
+      <source media="(min-width: 768px)" srcSet={desktopSrc} />
       <img
-        src={mobileSrc}
-        alt=""
-        width={slide.mobile.width}
-        height={slide.mobile.height}
+        src={desktopSrc}
+        alt={slide.desktop.alt}
+        width={slide.desktop.width}
+        height={slide.desktop.height}
         decoding="async"
-        aria-hidden
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover md:hidden"
-        style={{
-          objectPosition: slide.mobile.objectPosition,
-        }}
+        fetchPriority={priority ? "high" : "auto"}
+        className="hero-art-img hidden h-full w-full object-cover md:block"
+        style={pictureStyle}
       />
-      <picture
-        className="hero-art-picture absolute inset-0 block h-full w-full"
-      >
-        <source media="(min-width: 768px)" srcSet={desktopSrc} />
-        <img
-          src={mobileSrc}
-          alt={slide.mobile.alt}
-          width={slide.mobile.width}
-          height={slide.mobile.height}
-          decoding="async"
-          fetchPriority={priority ? "high" : "auto"}
-          className="hero-art-img h-full w-full object-cover"
-          style={pictureStyle}
-        />
-      </picture>
-    </div>
+    </picture>
+  );
+}
+
+/** Mobile: uma foto vertical, largura total, altura automática (carro inteiro). */
+export function HeroSlideMobileImage({
+  slide,
+  priority,
+}: {
+  slide: HeroSlideFrame;
+  priority?: boolean;
+}) {
+  const mobileSrc = publicPath(slide.mobile.src);
+  return (
+    <img
+      data-hero-slide-img="true"
+      src={mobileSrc}
+      alt={slide.mobile.alt}
+      width={slide.mobile.width}
+      height={slide.mobile.height}
+      decoding="async"
+      fetchPriority={priority ? "high" : "auto"}
+      className="mx-auto block h-auto max-h-[min(44svh,17.5rem)] w-full max-w-full object-contain object-top"
+    />
   );
 }

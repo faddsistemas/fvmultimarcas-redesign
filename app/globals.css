@@ -156,17 +156,9 @@
   }
 }
 
-.hero-art-img {
-  object-position: var(--hero-pos-mobile, center 30%);
-  transform: scale(var(--hero-mobile-scale, 1));
-  transform-origin: var(--hero-pos-mobile, center 30%);
-}
-
 @media (min-width: 768px) {
   .hero-art-img {
     object-position: var(--hero-pos-desktop, center center);
-    transform: none;
-    transform-origin: center center;
   }
 }
 
