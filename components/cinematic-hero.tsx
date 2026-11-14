@@ -4,15 +4,14 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChevronDownIcon, PauseIcon, PlayIcon } from "lucide-react";
 
-import { SiteImage } from "@/components/site-image";
+import { HeroSlidePicture } from "@/components/hero-slide-picture";
 import { Button } from "@/components/ui/button";
 import { buildHeroSlides, type HeroSlideFrame } from "@/lib/hero-slides";
-import { useMediaQuery, usePrefersReducedMotion } from "@/lib/use-media-query";
+import { usePrefersReducedMotion } from "@/lib/use-media-query";
 import { cn } from "cn";
 
 export function CinematicHero() {
   const reducedMotion = usePrefersReducedMotion();
-  const isMobile = useMediaQuery("(max-width: 767px)");
   const slides = useMemo<HeroSlideFrame[]>(() => buildHeroSlides(4), []);
 
   const [active, setActive] = useState(0);
@@ -50,12 +49,9 @@ export function CinematicHero() {
       >
         {slides.map((slide, index) => {
           const isActive = index === active;
-          const objectPosition = isMobile
-            ? slide.mobileObjectPosition
-            : slide.desktopObjectPosition;
           return (
             <div
-              key={`${slide.src}-${index}`}
+              key={`${slide.desktop.src}-${slide.mobile.src}-${index}`}
               data-hero-slide={index}
               data-hero-slide-active={isActive ? "true" : "false"}
               className={cn(
@@ -70,48 +66,40 @@ export function CinematicHero() {
                     isActive && !reducedMotion && !paused && "hero-ken-burns-active",
                   )}
                 >
-                  <SiteImage
-                    src={slide.src}
-                    alt={slide.alt}
-                    fill
-                    priority={index === 0}
-                    sizes="100vw"
-                    className="object-cover"
-                    style={{ objectPosition }}
-                  />
+                  <HeroSlidePicture slide={slide} priority={index === 0} />
                 </div>
               </div>
             </div>
           );
         })}
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/75 via-black/45 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/35 to-black/15" />
-        <div className="absolute inset-x-0 bottom-0 h-[min(52%,22rem)] bg-gradient-to-t from-black/92 via-black/55 to-transparent" />
+        <div className="absolute inset-0 hidden bg-gradient-to-r from-black/80 via-black/35 to-black/15 md:block" />
+        <div className="absolute inset-x-0 bottom-0 h-[min(46%,13.5rem)] bg-gradient-to-t from-black/95 via-black/55 to-transparent md:h-[min(52%,22rem)]" />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-12 pt-8 md:px-8 md:pb-16">
-        <div className="max-w-3xl space-y-3 text-left md:space-y-4">
-          <p className="text-sm font-semibold tracking-wide text-white/90">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-10 pt-4 md:px-8 md:pb-16 md:pt-8">
+        <div className="max-w-3xl space-y-2 text-left md:space-y-4">
+          <p className="text-xs font-semibold tracking-wide text-white/90 md:text-sm">
             Nova Serrana · desde 2005
           </p>
-          <h1 className="font-heading text-[clamp(1.75rem,5vw,3.5rem)] font-semibold leading-[1.06] text-white">
+          <h1 className="font-heading text-[clamp(1.5rem,6.5vw,3.5rem)] font-semibold leading-[1.08] text-white">
             Seu próximo veículo está em Nova Serrana.
           </h1>
-          <p className="max-w-xl text-sm text-white/88 md:text-lg">
+          <p className="hidden max-w-xl text-sm text-white/88 md:block md:text-lg">
             A FV Multimarcas compra, vende, troca, consigna e financia carros e motos na Rua Dimas
             Guimarães. O estoque desta página é o que a loja publicou.
           </p>
-          <div className="flex flex-wrap items-center gap-2 pt-1 md:gap-3">
+          <div className="flex flex-wrap items-center gap-2 pt-0.5 md:gap-3 md:pt-1">
             <Button
               render={<Link href="/estoque/" />}
-              className="h-10 rounded-full border border-white/25 bg-white/15 px-5 text-sm text-white shadow-none backdrop-blur-md hover:bg-white/25 md:h-11 md:px-6"
+              className="h-9 rounded-full border border-white/25 bg-white/15 px-4 text-xs text-white shadow-none backdrop-blur-md hover:bg-white/25 md:h-11 md:px-6 md:text-sm"
             >
               Ver estoque publicado
             </Button>
             <Button
               type="button"
               variant="ghost"
-              className="h-10 rounded-full border border-white/20 bg-black/20 px-4 text-sm text-white backdrop-blur-sm hover:bg-white/10 md:h-11 md:px-5"
+              className="h-9 rounded-full border border-white/20 bg-black/20 px-3.5 text-xs text-white backdrop-blur-sm hover:bg-white/10 md:h-11 md:px-5 md:text-sm"
               onClick={scrollToSearch}
             >
               Buscar veículo

@@ -1,30 +1,57 @@
-import { featuredVehicles, type Vehicle } from "@/lib/vehicles";
+import { featuredVehicles, type Vehicle, type VehiclePhoto } from "@/lib/vehicles";
 
-export type HeroSlideFrame = {
+export type HeroSlideMedia = {
   src: string;
   alt: string;
   width: number;
   height: number;
-  desktopObjectPosition: string;
-  mobileObjectPosition: string;
+  objectPosition: string;
+};
+
+export type HeroSlideFrame = {
+  desktop: HeroSlideMedia;
+  mobile: HeroSlideMedia;
 };
 
 type HeroOverride = {
-  photoIndex?: number;
-  desktop?: string;
-  mobile?: string;
+  desktopPhotoIndex?: number;
+  mobilePhotoIndex?: number;
+  desktopObjectPosition?: string;
+  mobileObjectPosition?: string;
 };
 
-/** Enquadramento por veículo: foto mais aberta + ponto focal para o carro inteiro em cover. */
+/**
+ * Desktop: foto mais horizontal (cover em 1280).
+ * Mobile: foto vertical do anúncio (frente 3/4) com carro inteiro acima do texto.
+ */
 const HERO_OVERRIDES: Record<string, HeroOverride> = {
-  "t-cross-2026": { photoIndex: 2, desktop: "58% center", mobile: "center 42%" },
-  "fiat-mobi-like-2025-cinza": { photoIndex: 2, desktop: "55% center", mobile: "center 40%" },
-  "fiat-mobi-like-2025-branca": { photoIndex: 2, desktop: "56% center", mobile: "center 40%" },
-  "fiat-argo-drive-2024": { photoIndex: 4, desktop: "52% center", mobile: "center 44%" },
+  "t-cross-2026": {
+    desktopPhotoIndex: 2,
+    mobilePhotoIndex: 0,
+    desktopObjectPosition: "58% center",
+    mobileObjectPosition: "center 30%",
+  },
+  "fiat-mobi-like-2025-cinza": {
+    desktopPhotoIndex: 2,
+    mobilePhotoIndex: 0,
+    desktopObjectPosition: "55% center",
+    mobileObjectPosition: "center 28%",
+  },
+  "fiat-mobi-like-2025-branca": {
+    desktopPhotoIndex: 2,
+    mobilePhotoIndex: 0,
+    desktopObjectPosition: "56% center",
+    mobileObjectPosition: "center 30%",
+  },
+  "fiat-argo-drive-2024": {
+    desktopPhotoIndex: 4,
+    mobilePhotoIndex: 0,
+    desktopObjectPosition: "52% center",
+    mobileObjectPosition: "center 32%",
+  },
 };
 
-function pickHeroPhotoIndex(vehicle: Vehicle, override?: number) {
-  if (override !== undefined) return override;
+function pickLandscapePhotoIndex(vehicle: Vehicle) {
   let best = 0;
   let bestRatio = 0;
   vehicle.photos.forEach((photo, index) => {
@@ -37,14 +64,39 @@ function pickHeroPhotoIndex(vehicle: Vehicle, override?: number) {
   return best;
 }
 
+function pickPortraitPhotoIndex(vehicle: Vehicle) {
+  let best = 0;
+  let bestRatio = Number.POSITIVE_INFINITY;
+  vehicle.photos.forEach((photo, index) => {
+    const ratio = photo.width / photo.height;
+    if (ratio < 1 && ratio < bestRatio) {
+      bestRatio = ratio;
+      best = index;
+    }
+  });
+  if (bestRatio === Number.POSITIVE_INFINITY) {
+    return 0;
+  }
+  return best;
+}
+
+function toMedia(photo: VehiclePhoto, objectPosition: string): HeroSlideMedia {
+  return {
+    src: photo.src,
+    alt: photo.alt,
+    width: photo.width,
+    height: photo.height,
+    objectPosition,
+  };
+}
+
 function defaultObjectPosition(aspect: number, viewport: "desktop" | "mobile") {
   if (viewport === "desktop") {
     if (aspect >= 1.2) return "55% center";
     if (aspect >= 0.95) return "center 42%";
     return "72% 40%";
   }
-  if (aspect >= 1.15) return "center 45%";
-  return "center 38%";
+  return aspect < 1 ? "center 30%" : "center 38%";
 }
 
 export function buildHeroSlides(limit = 4): HeroSlideFrame[] {
@@ -52,21 +104,30 @@ export function buildHeroSlides(limit = 4): HeroSlideFrame[] {
     .slice(0, limit)
     .flatMap((vehicle) => {
       const override = HERO_OVERRIDES[vehicle.slug] ?? {};
-      const photoIndex = pickHeroPhotoIndex(vehicle, override.photoIndex);
-      const photo = vehicle.photos[photoIndex];
-      if (!photo) return [];
+      const desktopIndex =
+        override.desktopPhotoIndex ?? pickLandscapePhotoIndex(vehicle);
+      const mobileIndex =
+        override.mobilePhotoIndex ?? pickPortraitPhotoIndex(vehicle);
 
-      const aspect = photo.width / photo.height;
+      const desktopPhoto = vehicle.photos[desktopIndex];
+      const mobilePhoto = vehicle.photos[mobileIndex];
+      if (!desktopPhoto || !mobilePhoto) return [];
+
+      const desktopAspect = desktopPhoto.width / desktopPhoto.height;
+      const mobileAspect = mobilePhoto.width / mobilePhoto.height;
+
       return [
         {
-          src: photo.src,
-          alt: photo.alt,
-          width: photo.width,
-          height: photo.height,
-          desktopObjectPosition:
-            override.desktop ?? defaultObjectPosition(aspect, "desktop"),
-          mobileObjectPosition:
-            override.mobile ?? defaultObjectPosition(aspect, "mobile"),
+          desktop: toMedia(
+            desktopPhoto,
+            override.desktopObjectPosition ??
+              defaultObjectPosition(desktopAspect, "desktop"),
+          ),
+          mobile: toMedia(
+            mobilePhoto,
+            override.mobileObjectPosition ??
+              defaultObjectPosition(mobileAspect, "mobile"),
+          ),
         },
       ];
     });

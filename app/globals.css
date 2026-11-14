@@ -154,6 +154,16 @@
   animation: hero-ken-burns 9s ease-out forwards;
 }
 
+.hero-art-img {
+  object-position: var(--hero-pos-mobile, center 30%);
+}
+
+@media (min-width: 768px) {
+  .hero-art-img {
+    object-position: var(--hero-pos-desktop, center center);
+  }
+}
+
 .scroll-reveal,
 .scroll-reveal-item {
   opacity: 1;

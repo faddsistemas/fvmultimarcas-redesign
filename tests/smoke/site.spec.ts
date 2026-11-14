@@ -50,6 +50,10 @@ async function assertHeroFullBleed(page: Page) {
     return widthOk && imgCovers;
   });
   expect(coversHero).toBe(true);
+  const slideCount = await page.locator("[data-hero-slide]").count();
+  await expect(page.locator('[data-testid="hero-media"] picture')).toHaveCount(
+    slideCount,
+  );
 }
 
 async function captureHeroSlides(page: Page, artifactVp: string) {
@@ -60,7 +64,8 @@ async function captureHeroSlides(page: Page, artifactVp: string) {
       await page.waitForTimeout(10_500);
     }
     await assertHeroFullBleed(page);
-    if (slide <= 2) {
+    const saveShot = artifactVp === "390" || slide <= 2;
+    if (saveShot) {
       await page.screenshot({
         path: `/opt/cursor/artifacts/hero-${artifactVp}-slide-${slide}.png`,
         fullPage: false,
@@ -115,9 +120,9 @@ test.describe("FV Multimarcas smoke", () => {
   });
 
   test("responsive layout, modal and navigation", async ({ page }, testInfo) => {
-    test.setTimeout(120_000);
-    const errors = trackConsoleErrors(page);
     const isMobile = testInfo.project.name === "mobile";
+    test.setTimeout(isMobile ? 180_000 : 120_000);
+    const errors = trackConsoleErrors(page);
     const artifactVp = isMobile ? "390" : "1280";
 
     await page.goto("");
@@ -152,6 +157,17 @@ test.describe("FV Multimarcas smoke", () => {
 
     await assertHeroFullBleed(page);
     await captureHeroSlides(page, artifactVp);
+
+    if (isMobile) {
+      await page.setViewportSize({ width: 360, height: 740 });
+      await page.goto("");
+      await page.waitForLoadState("networkidle");
+      const slideCount = await page.locator("[data-hero-slide]").count();
+      for (let slide = 1; slide <= slideCount; slide += 1) {
+        if (slide > 1) await page.waitForTimeout(10_500);
+        await assertHeroFullBleed(page);
+      }
+    }
 
     await page.screenshot({
       path: `/opt/cursor/artifacts/home-${artifactVp}.png`,
