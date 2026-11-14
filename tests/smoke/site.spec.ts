@@ -70,6 +70,27 @@ test.describe("FV Multimarcas smoke", () => {
     );
     await assertNoHorizontalScroll(page);
 
+    await page.evaluate(async () => {
+      const step = Math.max(window.innerHeight * 0.7, 320);
+      const max = document.documentElement.scrollHeight;
+      for (let y = 0; y < max; y += step) {
+        window.scrollTo(0, y);
+        await new Promise((resolve) => setTimeout(resolve, 40));
+      }
+      window.scrollTo(0, max);
+    });
+    const sectionOpacity = await page.evaluate(() => {
+      const nodes = [
+        ...document.querySelectorAll("main section, main [data-reveal]"),
+      ];
+      return nodes.map((node) => getComputedStyle(node).opacity);
+    });
+    expect(sectionOpacity.length).toBeGreaterThan(0);
+    for (const opacity of sectionOpacity) {
+      expect(Number(opacity)).toBeGreaterThanOrEqual(1);
+    }
+    await page.evaluate(() => window.scrollTo(0, 0));
+
     await page.screenshot({
       path: `/opt/cursor/artifacts/hero-${artifactVp}.png`,
       fullPage: false,

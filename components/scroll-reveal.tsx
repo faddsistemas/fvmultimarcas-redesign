@@ -84,7 +84,15 @@ export function ScrollReveal({
       observer.observe(el);
     });
 
-    return () => observer.disconnect();
+    const fallback = window.setTimeout(() => {
+      for (const el of items) reveal(el);
+      observer.disconnect();
+    }, 1500);
+
+    return () => {
+      window.clearTimeout(fallback);
+      observer.disconnect();
+    };
   }, [delayMs, durationMs, offsetY, reducedMotion, staggerMs]);
 
   if (staggerMs > 0) {
