@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MenuIcon, MessageCircleIcon, XIcon } from "lucide-react";
 
 import { SiteImage } from "@/components/site-image";
@@ -39,48 +39,17 @@ export function SiteHeader() {
   const pathname = usePathname();
   const path = normalizePath(pathname);
   const [open, setOpen] = useState(false);
-  const [solid, setSolid] = useState(path !== "/");
-  const onHomeHero = path === "/";
 
   const whatsapp = whatsappHref(
     "Olá, FV Multimarcas! Vim pelo site e quero falar com a loja.",
   );
 
-  useEffect(() => {
-    if (!onHomeHero) {
-      setSolid(true);
-      return;
-    }
-    const onScroll = () => {
-      setSolid(window.scrollY > 48);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [onHomeHero]);
-
-  const overlay = onHomeHero && !solid;
-
-  const onPrimary = overlay
-    ? "text-white hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-    : "text-primary-foreground hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
+  const onPrimary =
+    "text-primary-foreground hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
 
   return (
-    <header
-      className={cn(
-        "z-40 transition-[background-color,box-shadow,border-color] duration-[400ms] ease-out",
-        overlay ? "fixed inset-x-0 top-0" : "sticky top-0",
-        overlay
-          ? "border-b border-transparent bg-transparent text-white shadow-none"
-          : "border-b border-border bg-background text-foreground shadow-sm",
-      )}
-    >
-      <div
-        className={cn(
-          "hidden sm:block transition-colors duration-[400ms]",
-          overlay ? "bg-black/25 text-white backdrop-blur-sm" : "bg-primary text-primary-foreground",
-        )}
-      >
+    <header className="sticky top-0 z-40 border-b border-border bg-background text-foreground shadow-sm">
+      <div className="hidden bg-primary text-primary-foreground sm:block">
         <div className="mx-auto flex h-10 w-full max-w-6xl items-center justify-between gap-4 px-4 text-sm">
           <p>{dealer.addressLine}</p>
           <p>
@@ -100,19 +69,19 @@ export function SiteHeader() {
           </p>
         </div>
       </div>
-      <div className={cn("transition-colors duration-[400ms]", overlay ? "bg-transparent" : "")}>
+      <div className="bg-background">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-3 px-4">
-          <Link href="/" className="flex shrink-0 items-center rounded-lg">
+          <Link
+            href="/"
+            className="flex shrink-0 items-center rounded-lg bg-background p-1 ring-1 ring-border/80"
+          >
             <SiteImage
               src="/brand/logo.webp"
               alt="FV Multimarcas"
               width={64}
               height={64}
               priority
-              className={cn(
-                "h-12 w-12 object-contain transition-[filter] duration-200",
-                overlay && "brightness-0 invert",
-              )}
+              className="h-12 w-12 object-contain"
             />
           </Link>
           <nav aria-label="Principal" className="hidden items-center gap-1 md:flex">
@@ -125,13 +94,7 @@ export function SiteHeader() {
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "inline-flex min-h-11 items-center rounded-lg px-3 text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
-                    overlay
-                      ? active
-                        ? "text-white"
-                        : "text-white/90 hover:bg-white/10"
-                      : active
-                        ? "text-primary"
-                        : "text-foreground hover:bg-muted",
+                    active ? "text-primary" : "text-foreground hover:bg-muted",
                   )}
                 >
                   {item.label}
@@ -144,11 +107,7 @@ export function SiteHeader() {
               render={
                 <a href={whatsapp} target="_blank" rel="noopener noreferrer" />
               }
-              className={cn(
-                "transition-colors duration-200",
-                overlay &&
-                  "border-white/30 bg-white/15 text-white backdrop-blur-md hover:bg-white/25",
-              )}
+              className="transition-colors duration-200"
             >
               <MessageCircleIcon data-icon="inline-start" />
               WhatsApp
@@ -158,14 +117,7 @@ export function SiteHeader() {
             <SheetTrigger
               className="ml-auto md:hidden"
               render={
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "size-11 md:hidden",
-                    overlay && "border-white/40 bg-black/20 text-white hover:bg-white/10",
-                  )}
-                  aria-label="Abrir menu"
-                />
+                <Button variant="outline" className="size-11 md:hidden" aria-label="Abrir menu" />
               }
             >
               <MenuIcon />
