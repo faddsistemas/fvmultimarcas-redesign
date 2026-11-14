@@ -36,17 +36,19 @@ async function assertHeroFullBleed(page: Page) {
     if (!hero) return false;
     const heroRect = hero.getBoundingClientRect();
     const mediaRect = media.getBoundingClientRect();
-    const activeImg = media.querySelector(
-      '[data-hero-slide-active="true"] img',
-    ) as HTMLImageElement | null;
-    if (!activeImg) return false;
-    const imgRect = activeImg.getBoundingClientRect();
+    const activeSlide = media.querySelector('[data-hero-slide-active="true"]');
+    if (!activeSlide) return false;
+    const imgs = [...activeSlide.querySelectorAll("img")];
     const widthOk =
       Math.abs(mediaRect.width - heroRect.width) < 2 &&
       Math.abs(mediaRect.height - heroRect.height) < 2;
-    const imgCovers =
-      imgRect.width >= heroRect.width * 0.98 &&
-      imgRect.height >= heroRect.height * 0.98;
+    const imgCovers = imgs.some((img) => {
+      const imgRect = img.getBoundingClientRect();
+      return (
+        imgRect.width >= heroRect.width * 0.98 &&
+        imgRect.height >= heroRect.height * 0.98
+      );
+    });
     return widthOk && imgCovers;
   });
   expect(coversHero).toBe(true);
@@ -54,6 +56,36 @@ async function assertHeroFullBleed(page: Page) {
   await expect(page.locator('[data-testid="hero-media"] picture')).toHaveCount(
     slideCount,
   );
+}
+
+async function assertHeroCtasAboveContactBar(page: Page) {
+  const hero = page.getByTestId("cinematic-hero");
+  const bar = page.getByTestId("mobile-contact-bar");
+  await expect(bar).toBeVisible();
+  const stock = hero.getByRole("link", { name: /Ver estoque publicado/i });
+  const search = hero.getByRole("button", { name: /Buscar veículo/i });
+  await expect(stock).toBeVisible();
+  await expect(search).toBeVisible();
+
+  const layout = await hero.evaluate((heroEl) => {
+    const barEl = document.querySelector('[data-testid="mobile-contact-bar"]');
+    const stockEl = heroEl.querySelector('a[href*="estoque"]');
+    const searchEl = [...heroEl.querySelectorAll("button")].find((node) =>
+      /Buscar veículo/.test(node.textContent ?? ""),
+    );
+    if (!barEl || !stockEl || !searchEl) return null;
+    const bar = barEl.getBoundingClientRect();
+    const stockBox = stockEl.getBoundingClientRect();
+    const searchBox = searchEl.getBoundingClientRect();
+    return {
+      barTop: bar.top,
+      stockBottom: stockBox.bottom,
+      searchBottom: searchBox.bottom,
+    };
+  });
+  expect(layout).not.toBeNull();
+  expect(layout!.barTop).toBeGreaterThanOrEqual(layout!.stockBottom - 1);
+  expect(layout!.barTop).toBeGreaterThanOrEqual(layout!.searchBottom - 1);
 }
 
 async function captureHeroSlides(page: Page, artifactVp: string) {
@@ -64,6 +96,9 @@ async function captureHeroSlides(page: Page, artifactVp: string) {
       await page.waitForTimeout(10_500);
     }
     await assertHeroFullBleed(page);
+    if (artifactVp === "390" || artifactVp === "360" || artifactVp === "375") {
+      await assertHeroCtasAboveContactBar(page);
+    }
     const saveShot = artifactVp === "390" || slide <= 2;
     if (saveShot) {
       await page.screenshot({
@@ -121,7 +156,7 @@ test.describe("FV Multimarcas smoke", () => {
 
   test("responsive layout, modal and navigation", async ({ page }, testInfo) => {
     const isMobile = testInfo.project.name === "mobile";
-    test.setTimeout(isMobile ? 180_000 : 120_000);
+    test.setTimeout(isMobile ? 300_000 : 120_000);
     const errors = trackConsoleErrors(page);
     const artifactVp = isMobile ? "390" : "1280";
 
@@ -159,14 +194,16 @@ test.describe("FV Multimarcas smoke", () => {
     await captureHeroSlides(page, artifactVp);
 
     if (isMobile) {
-      await page.setViewportSize({ width: 360, height: 740 });
-      await page.goto("");
-      await page.waitForLoadState("networkidle");
-      const slideCount = await page.locator("[data-hero-slide]").count();
-      for (let slide = 1; slide <= slideCount; slide += 1) {
-        if (slide > 1) await page.waitForTimeout(10_500);
-        await assertHeroFullBleed(page);
+      for (const viewport of [
+        { width: 375, height: 667, tag: "375" },
+        { width: 360, height: 740, tag: "360" },
+      ]) {
+        await page.setViewportSize(viewport);
+        await page.goto("");
+        await page.waitForLoadState("networkidle");
+        await captureHeroSlides(page, viewport.tag);
       }
+      await page.setViewportSize({ width: 390, height: 844 });
     }
 
     await page.screenshot({

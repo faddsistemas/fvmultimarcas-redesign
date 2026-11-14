@@ -10,7 +10,8 @@ export function MobileContactBar() {
   return (
     <nav
       aria-label="Contato rápido"
-      className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-border bg-background md:hidden"
+      data-testid="mobile-contact-bar"
+      className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-border bg-background pb-[env(safe-area-inset-bottom,0px)] md:hidden"
     >
       <a
         href={whatsapp}

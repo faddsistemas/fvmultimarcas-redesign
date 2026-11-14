@@ -63,7 +63,10 @@ export function CinematicHero() {
                 <div
                   className={cn(
                     "absolute inset-0",
-                    isActive && !reducedMotion && !paused && "hero-ken-burns-active",
+                    isActive &&
+                      !reducedMotion &&
+                      !paused &&
+                      "md:hero-ken-burns-active",
                   )}
                 >
                   <HeroSlidePicture slide={slide} priority={index === 0} />
@@ -77,7 +80,7 @@ export function CinematicHero() {
         <div className="absolute inset-x-0 bottom-0 h-[min(46%,13.5rem)] bg-gradient-to-t from-black/95 via-black/55 to-transparent md:h-[min(52%,22rem)]" />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-10 pt-4 md:px-8 md:pb-16 md:pt-8">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-[calc(3.5rem+env(safe-area-inset-bottom,0px)+0.75rem)] pt-4 md:px-8 md:pb-16 md:pt-8">
         <div className="max-w-3xl space-y-2 text-left md:space-y-4">
           <p className="text-xs font-semibold tracking-wide text-white/90 md:text-sm">
             Nova Serrana · desde 2005
@@ -108,7 +111,7 @@ export function CinematicHero() {
         </div>
       </div>
 
-      <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-1 text-white/80">
+      <div className="absolute bottom-[calc(3.5rem+env(safe-area-inset-bottom,0px)+0.75rem)] left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-1 text-white/80 md:bottom-5">
         <button
           type="button"
           onClick={scrollToSearch}
@@ -124,7 +127,7 @@ export function CinematicHero() {
           type="button"
           variant="ghost"
           size="icon"
-          className="absolute right-4 bottom-5 z-20 size-11 rounded-full border border-white/25 bg-black/30 text-white backdrop-blur-md hover:bg-black/45"
+          className="absolute right-4 bottom-[calc(3.5rem+env(safe-area-inset-bottom,0px)+0.75rem)] z-20 size-11 rounded-full border border-white/25 bg-black/30 text-white backdrop-blur-md hover:bg-black/45 md:bottom-5"
           aria-pressed={paused}
           aria-label={paused ? "Retomar movimento do destaque" : "Pausar movimento do destaque"}
           onClick={() => setPaused((value) => !value)}
