@@ -14,6 +14,7 @@ import {
   vehicleName,
   type Vehicle,
 } from "@/lib/vehicles";
+import { cn } from "cn";
 
 function transmissionLabel(vehicle: Vehicle) {
   switch (vehicle.transmission) {
@@ -54,7 +55,13 @@ export function VehiclePreviewBody({
 
   return (
     <div
-      className={`grid w-full max-w-full min-w-0 gap-4 ${compact ? "min-h-0 grid-cols-1" : "md:grid-cols-2 md:gap-6"}`}
+      data-testid="vehicle-preview-body"
+      className={cn(
+        "grid w-full max-w-full min-w-0",
+        compact
+          ? "min-h-0 flex-1 grid-rows-[auto_1fr] grid-cols-1 gap-2 overflow-hidden"
+          : "gap-4 md:grid-cols-2 md:gap-6",
+      )}
     >
       <VehiclePreviewGallery
         key={vehicle.slug}
@@ -62,25 +69,48 @@ export function VehiclePreviewBody({
         title={name}
         compact={compact}
       />
-      <div className="flex min-h-0 min-w-0 w-full flex-col gap-3 overflow-x-hidden overflow-y-auto">
+      <div
+        className={cn(
+          "flex min-h-0 min-w-0 w-full flex-col overflow-hidden",
+          compact ? "gap-1.5" : "gap-3 overflow-x-hidden overflow-y-auto",
+        )}
+      >
         <PreviewHeader compact={compact} vehicle={vehicle} name={name} price={price} />
-        <dl className="grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
+        <dl
+          className={cn(
+            "grid shrink-0 grid-cols-2 gap-x-2",
+            compact ? "gap-y-1 text-xs" : "gap-y-2 text-sm",
+          )}
+        >
           {specs.map((item) => (
-            <div key={item.label} className="flex flex-col gap-0.5">
+            <div key={item.label} className="flex min-w-0 flex-col gap-0">
               <dt className="text-muted-foreground">{item.label}</dt>
-              <dd className="font-medium text-foreground">{item.value}</dd>
+              <dd className="truncate font-medium text-foreground">{item.value}</dd>
             </div>
           ))}
         </dl>
         {vehicle.equipment.length > 0 ? (
-          <p className="line-clamp-2 text-sm text-muted-foreground">
+          <p
+            className={cn(
+              "shrink-0 text-muted-foreground",
+              compact ? "line-clamp-1 text-[0.7rem] leading-snug" : "line-clamp-2 text-sm",
+            )}
+          >
             <span className="font-medium text-foreground">Destaques: </span>
-            {vehicle.equipment.slice(0, 6).join(" · ")}
+            {vehicle.equipment.slice(0, compact ? 4 : 6).join(" · ")}
           </p>
         ) : null}
-        <div className="mt-auto flex shrink-0 flex-col gap-2 pt-1 sm:flex-row">
+        <div
+          className={cn(
+            "mt-auto flex shrink-0 flex-col gap-1.5 pt-0.5",
+            compact ? "" : "gap-2 sm:flex-row",
+          )}
+        >
           <Button
-            className="w-full whitespace-normal sm:flex-1"
+            className={cn(
+              "w-full whitespace-normal",
+              compact ? "h-9 px-3 text-xs" : "sm:flex-1",
+            )}
             render={
               <Link
                 href={vehicleDetailPath(vehicle.slug)}
@@ -92,10 +122,13 @@ export function VehiclePreviewBody({
           </Button>
           <Button
             variant="secondary"
-            className="w-full whitespace-normal sm:flex-1"
+            className={cn(
+              "w-full whitespace-normal",
+              compact ? "h-9 px-3 text-xs" : "sm:flex-1",
+            )}
             render={<a href={wa} target="_blank" rel="noopener noreferrer" />}
           >
-            <MessageCircleIcon data-icon="inline-start" />
+            <MessageCircleIcon data-icon="inline-start" className={compact ? "size-3.5" : undefined} />
             Chamar no WhatsApp
           </Button>
         </div>
@@ -116,20 +149,37 @@ function PreviewHeader({
   price: string;
 }) {
   return (
-    <header className="shrink-0 space-y-1">
-      <p className="text-sm text-muted-foreground">{vehicle.brand}</p>
+    <header className="shrink-0 space-y-0">
+      <p className={cn("text-muted-foreground", compact ? "text-[0.7rem]" : "text-sm")}>
+        {vehicle.brand}
+      </p>
       <h2
         id="vehicle-preview-heading"
-        className={`font-heading font-semibold text-foreground ${compact ? "text-xl" : "text-2xl"}`}
+        className={cn(
+          "font-heading font-semibold leading-tight text-foreground",
+          compact ? "text-base" : "text-2xl",
+        )}
       >
         {name}
         {vehicle.version ? (
-          <span className="block text-base font-normal text-muted-foreground">
+          <span
+            className={cn(
+              "block font-normal text-muted-foreground",
+              compact ? "text-xs" : "text-base",
+            )}
+          >
             {vehicle.version}
           </span>
         ) : null}
       </h2>
-      <p className="font-heading text-2xl font-semibold text-secondary">{price}</p>
+      <p
+        className={cn(
+          "font-heading font-semibold text-secondary",
+          compact ? "text-lg" : "text-2xl",
+        )}
+      >
+        {price}
+      </p>
     </header>
   );
 }

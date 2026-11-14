@@ -6,6 +6,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { SiteImage } from "@/components/site-image";
 import { Button } from "@/components/ui/button";
 import type { VehiclePhoto } from "@/lib/vehicles";
+import { cn } from "cn";
 
 export function VehiclePreviewGallery({
   photos,
@@ -42,17 +43,25 @@ export function VehiclePreviewGallery({
   if (!current) {
     return (
       <div
-        className={`relative w-full shrink-0 overflow-hidden rounded-xl bg-muted ${compact ? "aspect-[16/10] max-h-[min(42dvh,320px)]" : "aspect-[4/3] max-h-[min(52dvh,420px)]"}`}
+        className={cn(
+          "relative w-full shrink-0 overflow-hidden rounded-xl bg-muted",
+          compact
+            ? "aspect-[4/3] max-h-[min(30dvh,11.5rem)] min-h-[8.5rem]"
+            : "aspect-[4/3] max-h-[min(52dvh,420px)]",
+        )}
       />
     );
   }
 
-  const thumbCount = compact ? 4 : 5;
-
   return (
-    <div className="flex min-h-0 flex-col gap-2">
+    <div className={cn("flex min-h-0 flex-col", compact ? "gap-1" : "gap-2")}>
       <div
-        className={`relative w-full shrink-0 overflow-hidden rounded-xl bg-muted ${compact ? "aspect-[16/10] max-h-[min(42dvh,320px)]" : "aspect-[4/3] max-h-[min(52dvh,420px)]"}`}
+        className={cn(
+          "relative w-full shrink-0 overflow-hidden rounded-xl bg-muted",
+          compact
+            ? "aspect-[4/3] max-h-[min(30dvh,11.5rem)] min-h-[8.5rem]"
+            : "aspect-[4/3] max-h-[min(52dvh,420px)]",
+        )}
         onTouchStart={(event) => {
           const touch = event.changedTouches[0];
           (event.currentTarget as HTMLElement).dataset.touchX = String(touch.clientX);
@@ -76,22 +85,49 @@ export function VehiclePreviewGallery({
           className="object-contain"
         />
         {total > 1 ? (
-          <div className="absolute inset-x-2 bottom-2 z-10 flex justify-between gap-2">
+          <div className="absolute inset-x-1.5 bottom-1.5 z-10 flex items-center justify-between gap-2">
             <Button
               type="button"
               variant="secondary"
               size="icon"
-              className="size-10 bg-background/90 text-foreground [&_svg]:size-5 [&_svg]:text-foreground"
+              className={cn(
+                "bg-background/90 text-foreground [&_svg]:text-foreground",
+                compact ? "size-8 [&_svg]:size-4" : "size-10 [&_svg]:size-5",
+              )}
               aria-label="Foto anterior"
               onClick={() => go(-1)}
             >
               <ChevronLeftIcon />
             </Button>
+            {compact ? (
+              <ol className="flex flex-1 justify-center gap-1.5" aria-label="Fotos do veículo">
+                {photos.map((photo, photoIndex) => {
+                  const selected = photoIndex === index;
+                  return (
+                    <li key={photo.src}>
+                      <button
+                        type="button"
+                        aria-label={`Mostrar foto ${photoIndex + 1} de ${total}`}
+                        aria-current={selected ? "true" : undefined}
+                        onClick={() => setIndex(photoIndex)}
+                        className={cn(
+                          "block size-2 rounded-full transition-colors",
+                          selected ? "bg-primary" : "bg-foreground/35",
+                        )}
+                      />
+                    </li>
+                  );
+                })}
+              </ol>
+            ) : null}
             <Button
               type="button"
               variant="secondary"
               size="icon"
-              className="size-10 bg-background/90 text-foreground [&_svg]:size-5 [&_svg]:text-foreground"
+              className={cn(
+                "bg-background/90 text-foreground [&_svg]:text-foreground",
+                compact ? "size-8 [&_svg]:size-4" : "size-10 [&_svg]:size-5",
+              )}
               aria-label="Próxima foto"
               onClick={() => go(1)}
             >
@@ -103,11 +139,9 @@ export function VehiclePreviewGallery({
           Foto {index + 1} de {total} de {title}
         </p>
       </div>
-      {total > 1 ? (
-        <ul
-          className={`grid shrink-0 gap-1.5 ${compact ? "grid-cols-4" : "grid-cols-5"}`}
-        >
-          {photos.slice(0, thumbCount).map((photo, photoIndex) => {
+      {!compact && total > 1 ? (
+        <ul className="grid shrink-0 grid-cols-5 gap-1.5">
+          {photos.slice(0, 5).map((photo, photoIndex) => {
             const selected = photoIndex === index;
             return (
               <li key={photo.src}>

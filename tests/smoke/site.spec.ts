@@ -7,6 +7,25 @@ const ignoreConsole = (text: string) =>
 const MODAL_SLUG = "fiat-mobi-like-2025-branca";
 const DETAIL_SLUG = "t-cross-2026";
 
+async function assertModalFitsViewport(page: Page) {
+  const shell = page.getByTestId("vehicle-preview-mobile-shell");
+  await expect(shell).toBeVisible();
+  const metrics = await shell.evaluate((el) => ({
+    scrollHeight: el.scrollHeight,
+    clientHeight: el.clientHeight,
+    scrollWidth: el.scrollWidth,
+    clientWidth: el.clientWidth,
+  }));
+  expect(
+    metrics.scrollHeight,
+    `modal scrollHeight ${metrics.scrollHeight} > clientHeight ${metrics.clientHeight}`,
+  ).toBeLessThanOrEqual(metrics.clientHeight + 1);
+  expect(
+    metrics.scrollWidth,
+    `modal scrollWidth ${metrics.scrollWidth} > clientWidth ${metrics.clientWidth}`,
+  ).toBeLessThanOrEqual(metrics.clientWidth + 1);
+}
+
 async function assertNoHorizontalScroll(page: Page) {
   const fits = await page.evaluate(() => {
     const root = document.documentElement;
@@ -88,9 +107,16 @@ test.describe("FV Multimarcas smoke", () => {
     await page.evaluate(() => window.scrollTo(0, 0));
 
     await page.screenshot({
-      path: `/opt/cursor/artifacts/hero-${artifactVp}.png`,
+      path: `/opt/cursor/artifacts/hero-${artifactVp}-slide-1.png`,
       fullPage: false,
     });
+  if (await page.getByRole("button", { name: /Pausar movimento do destaque/i }).isVisible()) {
+      await page.waitForTimeout(10_500);
+      await page.screenshot({
+        path: `/opt/cursor/artifacts/hero-${artifactVp}-slide-2.png`,
+        fullPage: false,
+      });
+    }
 
     await page.screenshot({
       path: `/opt/cursor/artifacts/home-${artifactVp}.png`,
@@ -126,11 +152,29 @@ test.describe("FV Multimarcas smoke", () => {
     await expect(modal.getByText("Combustível", { exact: true })).toBeVisible();
     await expect(modal.getByText("Categoria", { exact: true })).toBeVisible();
 
-    const thumb = modal.locator('button[aria-label^="Mostrar foto"]').first();
-    await expect(thumb).toBeVisible();
-    const thumbBox = await thumb.boundingBox();
-    expect(thumbBox?.width ?? 0).toBeGreaterThan(8);
-    expect(thumbBox?.height ?? 0).toBeGreaterThan(8);
+    const photoControl = modal.locator('button[aria-label^="Mostrar foto"]').first();
+    await expect(photoControl).toBeVisible();
+    const photoControlBox = await photoControl.boundingBox();
+    expect(photoControlBox?.width ?? 0).toBeGreaterThan(6);
+    expect(photoControlBox?.height ?? 0).toBeGreaterThan(6);
+
+    if (isMobile) {
+      await assertModalFitsViewport(page);
+      for (const viewport of [
+        { width: 360, height: 740 },
+        { width: 375, height: 667 },
+      ]) {
+        await page.setViewportSize(viewport);
+        await page.goto(`?veiculo=${MODAL_SLUG}`);
+        await page.waitForLoadState("networkidle");
+        await assertModalFitsViewport(page);
+        await page.screenshot({
+          path: `/opt/cursor/artifacts/modal-${viewport.width}x${viewport.height}.png`,
+          fullPage: false,
+        });
+      }
+      await page.setViewportSize({ width: 390, height: 844 });
+    }
 
     await page.screenshot({
       path: `/opt/cursor/artifacts/modal-${artifactVp}.png`,

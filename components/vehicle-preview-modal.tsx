@@ -55,7 +55,10 @@ export function VehiclePreviewModal({
           >
             <XIcon className="size-5" aria-hidden />
           </DrawerClose>
-          <div className="flex h-full max-h-[100dvh] w-full max-w-full min-w-0 flex-col gap-3 overflow-x-hidden overflow-y-auto px-4 pt-16 pb-6">
+          <div
+            data-testid="vehicle-preview-mobile-shell"
+            className="flex h-full max-h-[100dvh] w-full max-w-full min-w-0 flex-col overflow-hidden px-3 pt-[max(3.25rem,env(safe-area-inset-top)+2.75rem)] pb-[max(0.5rem,env(safe-area-inset-bottom))]"
+          >
             <DrawerTitle id="vehicle-preview-title" className="sr-only">
               {title}
             </DrawerTitle>
