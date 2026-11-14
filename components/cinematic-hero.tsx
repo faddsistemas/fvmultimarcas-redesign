@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 import { ChevronDownIcon, PauseIcon, PlayIcon } from "lucide-react";
 
 import {
@@ -41,16 +41,29 @@ export function CinematicHero() {
     return null;
   }
 
+  const activeSlide = slides[active];
+
   return (
     <section
       data-testid="cinematic-hero"
-      className="relative isolate -mt-16 flex h-[100svh] max-h-[100svh] min-h-[100svh] w-full flex-col overflow-hidden pt-16 text-white sm:-mt-[6.5rem] sm:pt-[6.5rem] md:justify-end md:bg-black"
-      style={{ backgroundColor: HERO_PANEL_BG }}
+      className={cn(
+        "relative isolate -mt-16 grid h-[100svh] max-h-[100svh] min-h-[100svh] w-full overflow-hidden pt-16 text-white",
+        "grid-rows-[var(--hero-mobile-media)_minmax(0,1fr)]",
+        "pb-[calc(3.5rem+env(safe-area-inset-bottom,0px))]",
+        "md:flex md:pb-0 md:pt-[6.5rem]",
+        "md:-mt-[6.5rem] md:justify-end md:bg-black",
+      )}
+      style={
+        {
+          backgroundColor: HERO_PANEL_BG,
+          "--hero-mobile-media": activeSlide.mobile.mediaHeight,
+        } as CSSProperties
+      }
       aria-label="Destaque da FV Multimarcas"
     >
       <div
         data-testid="hero-media-mobile"
-        className="relative max-h-[min(44svh,17.5rem)] min-h-0 w-full shrink overflow-hidden md:hidden"
+        className="relative min-h-0 w-full overflow-hidden md:hidden"
       >
         {slides.map((slide, index) => {
           const isActive = index === active;
@@ -60,8 +73,8 @@ export function CinematicHero() {
               data-hero-slide={index}
               data-hero-slide-active={isActive ? "true" : "false"}
               className={cn(
-                "w-full transition-opacity duration-[1200ms] ease-out",
-                isActive ? "relative opacity-100" : "pointer-events-none absolute inset-x-0 top-0 opacity-0",
+                "absolute inset-0 overflow-hidden transition-opacity duration-[1200ms] ease-out",
+                isActive ? "opacity-100" : "opacity-0",
               )}
             >
               <HeroSlideMobileImage slide={slide} priority={index === 0} />
@@ -73,7 +86,7 @@ export function CinematicHero() {
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0b0b0b] via-[#0b0b0b]/85 to-transparent"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[20%] bg-gradient-to-t from-[#0b0b0b] via-[#0b0b0b]/80 to-transparent"
           aria-hidden
         />
       </div>
@@ -116,7 +129,7 @@ export function CinematicHero() {
         <div className="absolute inset-x-0 bottom-0 h-[min(52%,22rem)] bg-gradient-to-t from-black/95 via-black/55 to-transparent" />
       </div>
 
-      <div className="relative z-10 mt-auto min-h-0 w-full shrink-0 bg-[#0b0b0b] px-4 pb-[calc(3.5rem+env(safe-area-inset-bottom,0px)+0.5rem)] pt-2 md:mx-auto md:max-w-6xl md:shrink md:bg-transparent md:px-8 md:pb-16 md:pt-8">
+      <div className="relative z-10 flex min-h-0 flex-col justify-end overflow-hidden bg-[#0b0b0b] px-4 pb-0 pt-1.5 md:mx-auto md:max-w-6xl md:flex-1 md:bg-transparent md:px-8 md:pb-16 md:pt-8">
         <div className="max-w-3xl space-y-1.5 text-left md:space-y-4">
           <p className="text-xs font-semibold tracking-wide text-white/90 md:text-sm">
             Nova Serrana · desde 2005
@@ -166,7 +179,7 @@ export function CinematicHero() {
           type="button"
           variant="ghost"
           size="icon"
-          className="absolute top-[max(4.5rem,env(safe-area-inset-top)+3.5rem)] right-3 z-20 size-10 rounded-full border border-white/25 bg-black/30 text-white backdrop-blur-md hover:bg-black/45 md:top-auto md:right-4 md:bottom-5 md:size-11"
+          className="absolute top-[max(4.25rem,env(safe-area-inset-top)+3.25rem)] right-2 z-20 size-9 rounded-full border border-white/20 bg-black/25 text-white opacity-80 backdrop-blur-sm hover:bg-black/40 md:top-auto md:right-4 md:bottom-5 md:size-11 md:opacity-100"
           aria-pressed={paused}
           aria-label={paused ? "Retomar movimento do destaque" : "Pausar movimento do destaque"}
           onClick={() => setPaused((value) => !value)}

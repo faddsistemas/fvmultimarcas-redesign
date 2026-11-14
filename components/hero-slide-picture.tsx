@@ -38,7 +38,7 @@ export function HeroSlidePicture({
   );
 }
 
-/** Mobile: uma foto vertical, largura total, altura automática (carro inteiro). */
+/** Mobile: única imagem, cover na caixa 100vw × mediaHeight. */
 export function HeroSlideMobileImage({
   slide,
   priority,
@@ -56,7 +56,8 @@ export function HeroSlideMobileImage({
       height={slide.mobile.height}
       decoding="async"
       fetchPriority={priority ? "high" : "auto"}
-      className="mx-auto block h-auto max-h-[min(44svh,17.5rem)] w-full max-w-full object-contain object-top"
+      className="absolute inset-0 h-full w-full object-cover"
+      style={{ objectPosition: slide.mobile.objectPosition }}
     />
   );
 }

@@ -39,18 +39,35 @@ async function assertHeroFullBleed(page: Page) {
     const mobileMedia = page.getByTestId("hero-media-mobile");
     const mobileOk = await mobileMedia.evaluate((root) => {
       const active = root.querySelector('[data-hero-slide-active="true"]');
-      if (!active) return { single: false, edgeToEdge: false };
+      if (!active) {
+        return { single: false, edgeToEdge: false, coversBox: false };
+      }
       const imgs = [...active.querySelectorAll("img")];
       const img = imgs[0];
-      if (!img || imgs.length !== 1) return { single: false, edgeToEdge: false };
+      if (!img || imgs.length !== 1) {
+        return { single: false, edgeToEdge: false, coversBox: false };
+      }
+      const box = root.getBoundingClientRect();
       const imgRect = img.getBoundingClientRect();
+      const vw = window.innerWidth;
+      const coversBox =
+        imgRect.width >= box.width - 1 &&
+        imgRect.height >= box.height - 1 &&
+        imgRect.left <= 1 &&
+        imgRect.right >= vw - 1;
       return {
         single: true,
-        edgeToEdge: Math.abs(imgRect.width - window.innerWidth) < 2,
+        edgeToEdge:
+          Math.abs(box.width - vw) < 2 &&
+          Math.abs(imgRect.width - vw) < 2 &&
+          imgRect.left <= 1 &&
+          imgRect.right >= vw - 1,
+        coversBox,
       };
     });
     expect(mobileOk.single).toBe(true);
     expect(mobileOk.edgeToEdge).toBe(true);
+    expect(mobileOk.coversBox).toBe(true);
     return;
   }
 
@@ -90,25 +107,15 @@ async function assertHeroCtasAboveContactBar(page: Page) {
   await expect(stock).toBeVisible();
   await expect(search).toBeVisible();
 
-  const layout = await hero.evaluate((heroEl) => {
-    const barEl = document.querySelector('[data-testid="mobile-contact-bar"]');
-    const stockEl = heroEl.querySelector('a[href*="estoque"]');
-    const searchEl = [...heroEl.querySelectorAll("button")].find((node) =>
-      /Buscar veículo/.test(node.textContent ?? ""),
-    );
-    if (!barEl || !stockEl || !searchEl) return null;
-    const bar = barEl.getBoundingClientRect();
-    const stockBox = stockEl.getBoundingClientRect();
-    const searchBox = searchEl.getBoundingClientRect();
-    return {
-      barTop: bar.top,
-      stockBottom: stockBox.bottom,
-      searchBottom: searchBox.bottom,
-    };
-  });
-  expect(layout).not.toBeNull();
-  expect(layout!.barTop).toBeGreaterThanOrEqual(layout!.stockBottom - 1);
-  expect(layout!.barTop).toBeGreaterThanOrEqual(layout!.searchBottom - 1);
+  const stockBox = await stock.boundingBox();
+  const searchBox = await search.boundingBox();
+  const barBox = await bar.boundingBox();
+  expect(stockBox).not.toBeNull();
+  expect(searchBox).not.toBeNull();
+  expect(barBox).not.toBeNull();
+  const gap = 2;
+  expect(barBox!.y).toBeGreaterThanOrEqual(stockBox!.y + stockBox!.height - gap);
+  expect(barBox!.y).toBeGreaterThanOrEqual(searchBox!.y + searchBox!.height - gap);
 }
 
 async function captureHeroSlides(page: Page, artifactVp: string) {

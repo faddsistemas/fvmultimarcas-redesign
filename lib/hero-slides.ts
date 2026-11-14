@@ -8,9 +8,14 @@ export type HeroSlideMedia = {
   objectPosition: string;
 };
 
+export type HeroSlideMobileMedia = HeroSlideMedia & {
+  /** Altura da caixa de mídia no mobile (55svh–75svh). */
+  mediaHeight: string;
+};
+
 export type HeroSlideFrame = {
   desktop: HeroSlideMedia;
-  mobile: HeroSlideMedia;
+  mobile: HeroSlideMobileMedia;
 };
 
 type HeroOverride = {
@@ -18,32 +23,41 @@ type HeroOverride = {
   mobilePhotoIndex?: number;
   desktopObjectPosition?: string;
   mobileObjectPosition?: string;
+  mobileMediaHeight?: string;
 };
 
 /**
- * Desktop: foto mais horizontal (cover em 1280).
- * Mobile: foto vertical do anúncio (frente 3/4) com carro inteiro acima do texto.
+ * Desktop: foto horizontal (cover).
+ * Mobile: foto vertical mais aberta + caixa 100vw × mediaHeight com object-cover.
  */
 const HERO_OVERRIDES: Record<string, HeroOverride> = {
   "t-cross-2026": {
     desktopPhotoIndex: 2,
     mobilePhotoIndex: 1,
     desktopObjectPosition: "58% center",
+    mobileObjectPosition: "52% 36%",
+    mobileMediaHeight: "64svh",
   },
   "fiat-mobi-like-2025-cinza": {
     desktopPhotoIndex: 2,
     mobilePhotoIndex: 1,
     desktopObjectPosition: "55% center",
+    mobileObjectPosition: "50% 34%",
+    mobileMediaHeight: "63svh",
   },
   "fiat-mobi-like-2025-branca": {
     desktopPhotoIndex: 2,
-    mobilePhotoIndex: 2,
+    mobilePhotoIndex: 1,
     desktopObjectPosition: "56% center",
+    mobileObjectPosition: "51% 35%",
+    mobileMediaHeight: "62svh",
   },
   "fiat-argo-drive-2024": {
     desktopPhotoIndex: 4,
-    mobilePhotoIndex: 2,
+    mobilePhotoIndex: 1,
     desktopObjectPosition: "52% center",
+    mobileObjectPosition: "50% 38%",
+    mobileMediaHeight: "63svh",
   },
 };
 
@@ -60,19 +74,16 @@ function pickLandscapePhotoIndex(vehicle: Vehicle) {
   return best;
 }
 
-function pickPortraitPhotoIndex(vehicle: Vehicle) {
+function pickOpenPortraitIndex(vehicle: Vehicle) {
   let best = 0;
-  let bestRatio = Number.POSITIVE_INFINITY;
+  let bestRatio = 0;
   vehicle.photos.forEach((photo, index) => {
     const ratio = photo.width / photo.height;
-    if (ratio < 1 && ratio < bestRatio) {
+    if (ratio < 1 && ratio > bestRatio) {
       bestRatio = ratio;
       best = index;
     }
   });
-  if (bestRatio === Number.POSITIVE_INFINITY) {
-    return 0;
-  }
   return best;
 }
 
@@ -92,7 +103,7 @@ function defaultObjectPosition(aspect: number, viewport: "desktop" | "mobile") {
     if (aspect >= 0.95) return "center 42%";
     return "72% 40%";
   }
-  return aspect < 1 ? "center 30%" : "center 38%";
+  return aspect < 1 ? "center 36%" : "center 38%";
 }
 
 export function buildHeroSlides(limit = 4): HeroSlideFrame[] {
@@ -103,7 +114,7 @@ export function buildHeroSlides(limit = 4): HeroSlideFrame[] {
       const desktopIndex =
         override.desktopPhotoIndex ?? pickLandscapePhotoIndex(vehicle);
       const mobileIndex =
-        override.mobilePhotoIndex ?? pickPortraitPhotoIndex(vehicle);
+        override.mobilePhotoIndex ?? pickOpenPortraitIndex(vehicle);
 
       const desktopPhoto = vehicle.photos[desktopIndex];
       const mobilePhoto = vehicle.photos[mobileIndex];
@@ -119,11 +130,14 @@ export function buildHeroSlides(limit = 4): HeroSlideFrame[] {
             override.desktopObjectPosition ??
               defaultObjectPosition(desktopAspect, "desktop"),
           ),
-          mobile: toMedia(
-            mobilePhoto,
-            override.mobileObjectPosition ??
-              defaultObjectPosition(mobileAspect, "mobile"),
-          ),
+          mobile: {
+            ...toMedia(
+              mobilePhoto,
+              override.mobileObjectPosition ??
+                defaultObjectPosition(mobileAspect, "mobile"),
+            ),
+            mediaHeight: override.mobileMediaHeight ?? "66svh",
+          },
         },
       ];
     });
